@@ -13,6 +13,7 @@ MMX = {
     ShowCategory:function(category){
         jQuery('.mmx-category').removeClass('active');
         jQuery('#mmx-category-'+category).addClass('active');
+
     }
 
 
