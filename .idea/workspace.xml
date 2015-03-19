@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3782509-0d77-4ebc-80be-30e0ff3b0716" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/index.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/mmx.php" afterPath="" />
+    <list default="true" id="f1eefbf1-620f-4d07-985f-9782ac765440" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mmm/_.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mmm/mmm_upgrade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mmx.php" />
+      <change type="DELETED" beforePath="Z:\prj\mmx\mmx\_.php" afterPath="" />
+      <change type="DELETED" beforePath="Z:\prj\mmx\mmx\mmx_upgrade.php" afterPath="" />
+      <change type="DELETED" beforePath="Z:\prj\mmx\www\index.php" afterPath="" />
+      <change type="DELETED" beforePath="Z:\prj\mmx\www\mmx" afterPath="" />
+      <change type="DELETED" beforePath="Z:\prj\mmx\www\oxy" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="Z:\prj\mmx\mmx\fon\mmx.psd" afterPath="$PROJECT_DIR$/fon/mmx.psd" />
+      <change type="MOVED" beforePath="Z:\prj\mmx\mmx\skn\ActionHome.php" afterPath="$PROJECT_DIR$/mmm/skn/ActionHome.php" />
+      <change type="MOVED" beforePath="Z:\prj\mmx\www\_.php" afterPath="$PROJECT_DIR$/_.php" />
     </list>
     <ignored path="mmx.iws" />
     <ignored path=".idea/workspace.xml" />
-    <ignored path=".idea/dataSources.local.xml" />
     <ignored path="$PROJECT_DIR$/dat/" />
     <ignored path="$PROJECT_DIR$/log/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
+    <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,41 +41,100 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/index.php">
+      <file leaf-file-name="mmx.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mmx.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="336">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.8172043" vertical-offset="260" max-vertical-offset="1836">
+              <caret line="60" column="10" selection-start-line="60" selection-start-column="10" selection-end-line="60" selection-end-column="10" />
+              <folding>
+                <marker date="1426795732525" expanded="true" signature="265:3279" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="1153:1236" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="1338:1417" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="1519:1605" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="1707:1788" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="1982:2065" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="2178:2256" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="2368:2452" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="2564:2644" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="2756:2845" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="2957:3038" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="3102:3115" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="3116:3126" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="3183:3196" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="3197:3207" placeholder="..." />
+                <marker date="1426795732525" expanded="true" signature="3235:3270" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mmx.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mmx.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-26.115385" vertical-offset="630" max-vertical-offset="1547">
+              <caret line="86" column="185" selection-start-line="86" selection-start-column="185" selection-end-line="86" selection-end-column="185" />
+              <folding>
+                <element signature="e#2212#2513#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mmm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jsc/mmm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/www/_.php">
+      <file leaf-file-name="mmm.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mmm/mmm.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.10166799" vertical-offset="0" max-vertical-offset="1259">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state vertical-scroll-proportion="-14.384615" vertical-offset="0" max-vertical-offset="561">
+              <caret line="22" column="88" selection-start-line="22" selection-start-column="88" selection-end-line="22" selection-end-column="88" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="_.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mmm/_.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="160">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            <state vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="187">
+              <caret line="4" column="36" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActionHome.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mmx/skn/ActionHome.php">
+      <file leaf-file-name="mmm_dictionary.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mmm/mmm_dictionary.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="304">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="187">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mmm_upgrade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mmm/mmm_upgrade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="646">
+              <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="221">
+              <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -87,26 +155,15 @@
       <MyDateState />
     </option>
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/mmx/_.php" />
-        <option value="$PROJECT_DIR$/www/mmx.php" />
-        <option value="$PROJECT_DIR$/www/_.php" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/mmx/src/Actions/ActionHome.php" />
-        <option value="$PROJECT_DIR$/mmx/mmx_upgrade.php" />
-      </list>
-    </option>
-  </component>
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="2560" />
-    <option name="height" value="1382" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -171,6 +228,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -213,11 +271,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="oxy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fon" />
+              <option name="myItemId" value="mmm" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -231,7 +285,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mmx" />
+              <option name="myItemId" value="jsc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -239,10 +293,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="mmx" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mmx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="mmx" />
@@ -255,7 +305,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -270,18 +319,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="Z:\prj\mmx\fon" />
+      <recent name="Z:\prj\mmx\img" />
+      <recent name="Z:\prj\mmx" />
+      <recent name="Z:\prj\mmx\mmx" />
       <recent name="$PROJECT_DIR$/mmx/fon" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="Z:\prj\mmx\fff\src\Actions" />
-      <recent name="$PROJECT_DIR$/fff/src/Model" />
-      <recent name="$PROJECT_DIR$/fff/src/Actions/Ajax" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="Z:\prj\mmx" />
+      <recent name="Z:\prj\mmx\mmx" />
       <recent name="$PROJECT_DIR$/mmx/src" />
       <recent name="$PROJECT_DIR$/fff/src/Actions" />
       <recent name="$PROJECT_DIR$/fff/src" />
-      <recent name="$PROJECT_DIR$/fff/src/Actions/Ajax" />
-      <recent name="Z:\prj\mmx\fff\src\Model" />
     </key>
   </component>
   <component name="RunManager">
@@ -295,6 +344,10 @@
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <method />
     </configuration>
@@ -304,54 +357,41 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
-    <option name="USER" value="" />
-    <option name="PASSWORD" value="" />
-    <option name="mySSHConnectionTimeout" value="30000" />
-    <option name="mySSHReadTimeout" value="30000" />
-    <option name="LAST_MERGED_REVISION" />
-    <option name="MERGE_DRY_RUN" value="false" />
-    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
-    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
-    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
-    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
-    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <option name="FORCE_UPDATE" value="false" />
-    <option name="IGNORE_EXTERNALS" value="false" />
-    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  <component name="SvnConfiguration" myUseAcceleration="nothing" SSL_PROTOCOLS="sslv3">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b3782509-0d77-4ebc-80be-30e0ff3b0716" name="Default" comment="" />
+      <changelist id="f1eefbf1-620f-4d07-985f-9782ac765440" name="Default" comment="" />
       <created>1380030965773</created>
+      <option name="number" value="Default" />
       <updated>1380030965773</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1382" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32997677" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20117188" sideWeight="0.6726006" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25104168" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32824427" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296146" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32739937" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -377,75 +417,309 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/oxy/src/Oxygen.php">
+    <entry file="file://$PROJECT_DIR$/mmx.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33948636" vertical-offset="6665" max-vertical-offset="20544">
-          <caret line="443" column="25" selection-start-line="443" selection-start-column="25" selection-end-line="443" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="663">
+          <caret line="4" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1426795732525" expanded="true" signature="265:3279" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1153:1236" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1338:1417" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1519:1605" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1707:1788" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1982:2065" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2178:2256" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2368:2452" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2564:2644" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2756:2845" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2957:3038" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3102:3115" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3116:3126" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3183:3196" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3197:3207" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3235:3270" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmx.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="663">
+          <caret line="4" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1426795732525" expanded="true" signature="265:3279" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1153:1236" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1338:1417" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1519:1605" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1707:1788" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1982:2065" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2178:2256" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2368:2452" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2564:2644" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2756:2845" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2957:3038" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3102:3115" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3116:3126" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3183:3196" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3197:3207" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3235:3270" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmx.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="663">
+          <caret line="24" column="57" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1426795732525" expanded="true" signature="265:3279" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1153:1236" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1338:1417" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1519:1605" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1707:1788" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1982:2065" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2178:2256" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2368:2452" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2564:2644" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2756:2845" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2957:3038" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3102:3115" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3116:3126" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3183:3196" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3197:3207" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3235:3270" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmx.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="663">
+          <caret line="24" column="57" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1426795732525" expanded="true" signature="265:3279" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1153:1236" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1338:1417" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1519:1605" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1707:1788" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1982:2065" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2178:2256" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2368:2452" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2564:2644" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2756:2845" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2957:3038" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3102:3115" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3116:3126" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3183:3196" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3197:3207" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3235:3270" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmx.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="663">
+          <caret line="30" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1426795732525" expanded="true" signature="265:3279" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1153:1236" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1338:1417" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1519:1605" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1707:1788" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1982:2065" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2178:2256" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2368:2452" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2564:2644" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2756:2845" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2957:3038" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3102:3115" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3116:3126" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3183:3196" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3197:3207" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3235:3270" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oxy/oxy_upgrade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10967742" vertical-offset="0" max-vertical-offset="930">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oxy/oxy_dictionary.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34731182" vertical-offset="816" max-vertical-offset="105077">
+          <caret line="67" column="18" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oxy/_.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3967742" vertical-offset="804" max-vertical-offset="1734">
+          <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
+          <folding>
+            <marker date="1426786592617" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1426786592617" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1426786592617" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1426786592617" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oxy/oxy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3349">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1426786593613" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1426786593613" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1426786593613" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1426786593613" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../vsserver-future/www/vspro/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2805">
+          <caret line="32" column="11" selection-start-line="0" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmm/_.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="187">
+          <caret line="4" column="36" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmm/mmm_dictionary.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="187">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmm/mmm_upgrade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="646">
+          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="221">
+          <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmx.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27041358" vertical-offset="9656" max-vertical-offset="19720">
+          <caret line="583" column="19" selection-start-line="583" selection-start-column="19" selection-end-line="583" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fon/mmx.psd">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mmx.css.map">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="51" max-vertical-offset="204">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/oxy/css/oxy.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.1752663" vertical-offset="2656" max-vertical-offset="6032">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.519084" vertical-offset="884" max-vertical-offset="6409">
+          <caret line="80" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mmx/_.php">
+    <entry file="file://$PROJECT_DIR$/../mmx_old/www/index.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.012708499" vertical-offset="0" max-vertical-offset="1259">
-          <caret line="1" column="33" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
+        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="5236">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/mmm/mmm.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="160">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        <state vertical-scroll-proportion="-14.384615" vertical-offset="0" max-vertical-offset="561">
+          <caret line="22" column="88" selection-start-line="22" selection-start-column="88" selection-end-line="22" selection-end-column="88" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mmx/skn/ActionHome.php">
+    <entry file="file://$PROJECT_DIR$/jsc/mmm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="304">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/index.php">
+    <entry file="file://$PROJECT_DIR$/mmx.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="336">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="-26.115385" vertical-offset="630" max-vertical-offset="1547">
+          <caret line="86" column="185" selection-start-line="86" selection-start-column="185" selection-end-line="86" selection-end-column="185" />
+          <folding>
+            <element signature="e#2212#2513#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mmx/mmx_upgrade.php">
+    <entry file="file://$PROJECT_DIR$/mmx.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23160434" vertical-offset="0" max-vertical-offset="829">
-          <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mmx/fon/mmx.psd">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state />
-      </provider>
-      <provider editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/_.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10166799" vertical-offset="0" max-vertical-offset="1259">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.8172043" vertical-offset="260" max-vertical-offset="1836">
+          <caret line="60" column="10" selection-start-line="60" selection-start-column="10" selection-end-line="60" selection-end-column="10" />
+          <folding>
+            <marker date="1426795732525" expanded="true" signature="265:3279" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1153:1236" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1338:1417" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1519:1605" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1707:1788" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="1982:2065" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2178:2256" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2368:2452" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2564:2644" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2756:2845" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="2957:3038" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3102:3115" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3116:3126" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3183:3196" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3197:3207" placeholder="..." />
+            <marker date="1426795732525" expanded="true" signature="3235:3270" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
