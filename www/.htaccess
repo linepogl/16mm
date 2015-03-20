@@ -9,6 +9,6 @@ RewriteBase /
 #
 #
 # /action/uni/lang
-#RewriteCond %{REQUEST_URI} ^/vspro/.*$
-#RewriteRule ^([_a-zA-Z0-9]+)/([0-9]+-[0-9]+)/([a-z]{2})/?$ /vspro/vspro.php?action=$1&uni=$2&lang=$3  [L,NE,QSA]
-#RewriteRule ^([_a-zA-Z0-9]+)/([0-9]+-[0-9]+)/([a-z]{2})/?$ /vspro.php?action=$1&uni=$2&lang=$3  [L,NE,QSA]
+RewriteCond %{REQUEST_URI} ^/16mm/.*$
+RewriteRule ^/?$ /16mm/16mm.php?action=$1&uni=$2&lang=$3  [L,NE,QSA]
+RewriteRule ^/?$ /16mm.php?action=$1&uni=$2&lang=$3  [L,NE,QSA]

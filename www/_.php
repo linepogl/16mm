@@ -1,7 +1,9 @@
 <?php
 require('oxy/_.php');
-require('mmm/_.php');
+require('mmx/_.php');
 
-Oxygen::SetWindowScopingEnabled(false);
-Oxygen::SetDatabaseManaged('localhost','mmx','root','');
+Oxygen::SetTempFolder('../tmp');
+Oxygen::SetDataFolder('../dat');
+Oxygen::SetLogsFolder('../log');
+//Oxygen::SetDatabaseManaged('localhost','mmx','root','');
 Oxygen::Init();
