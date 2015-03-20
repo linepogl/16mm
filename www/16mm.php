@@ -37,10 +37,19 @@ Oxygen::Go();
 </div>
 
 <form id="mmx-search" style="display:none;" onsubmit="window.mmx.Search();return false;">
+	<div class="mmx-title">16<span class="mm">mm</span></div>
 	<div class="mmx-button-wrapper"><?= ButtonBox::Make('searchbutton')->WithIsRich(true)->WithValue(oxy::icoSearchGlass())->WithIsSubmit(true) ?></div>
 	<?= TextBox::Make('searchstring') ?>
 </form>
 
+<div style="display:none;">
+	<div id="mmx-movie-tile-template" class="mmx-movie-tile">
+		<div class="title"></div>
+		<div class="languages"></div>
+		<div class="countries"></div>
+		<div class="genres"></div>
+	</div>
+</div>
 <!--
 
 

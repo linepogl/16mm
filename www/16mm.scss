@@ -94,14 +94,12 @@ body { background:$YY url(mmx/img/bg.png); }
 }
 
 #mmx-search {
-	position:fixed; top:40px; left:25%; right:25%;
-	background:rgba(255,255,255,0.5); border-radius:15px;
-	padding:50px; box-sizing:border-box;
-	z-index:1000;
+	position:fixed; top:40px; left:25%; right:25%; padding:50px; box-sizing:border-box; background:rgba(255,255,255,0.5); border-radius:15px; z-index:1000;
 	.mmx-button-wrapper { box-sizing:border-box; margin-left:100%; }
 	.formButton { position:absolute; margin:5px 0 0 -45px; padding:7px 11px; }
 	.formPane { padding:10px 60px 11px 10px; margin:0; }
-//	.mmx-textbox-wrapper { padding:50px; }
+
+	.mmx-title { text-align:center; font:700 50px/70px "Yanone",sans-serif; letter-spacing:-4px; color:#333333; text-shadow:1px 1px 0 #aaaaaa; .mm { font-size:30px; margin-left:4px; letter-spacing:0; }  }
 }
 
 

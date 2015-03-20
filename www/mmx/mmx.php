@@ -29,5 +29,9 @@ abstract class _mmx extends _mmx_dictionary {
 	public static function icoTarget            (){ return new Glyph('mmx-icon',0xE201); }
 
 
+
+	public static function FormatCountry($code) { return ucwords(strtolower(oxy::txtCountry_($code))); }
+	public static function FormatLanguage($code) { return ucwords(strtolower(oxy::txtLang_($code))); }
+
 }
 Oxygen::RegisterResourceManager('mmx','_mmx');

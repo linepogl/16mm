@@ -8,7 +8,8 @@ RewriteBase /
 # Main Rewrite Rules
 #
 #
-# /action/uni/lang
+#/
 RewriteCond %{REQUEST_URI} ^/16mm/.*$
-RewriteRule ^/?$ /16mm/16mm.php?action=$1&uni=$2&lang=$3  [L,NE,QSA]
-RewriteRule ^/?$ /16mm.php?action=$1&uni=$2&lang=$3  [L,NE,QSA]
+RewriteRule ^/?$ /16mm/16mm.php  [L,NE,QSA]
+RewriteRule ^/?$ /16mm.php  [L,NE,QSA]
+

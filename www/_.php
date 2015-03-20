@@ -5,5 +5,6 @@ require('mmx/_.php');
 Oxygen::SetTempFolder('../tmp');
 Oxygen::SetDataFolder('../dat');
 Oxygen::SetLogsFolder('../log');
+Oxygen::SetUrlRewriteFolderRules(['?'=>'']);
 //Oxygen::SetDatabaseManaged('localhost','mmx','root','');
 Oxygen::Init();

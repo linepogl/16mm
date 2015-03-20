@@ -25,6 +25,23 @@ mmx = {
     }
 
 
+    ,movie_tile_template : '<div class="mmx-movie-tile">'
+        +'<div class="title"></div>'
+        +'<div class="languages"></div>'
+        +'<div class="countries"></div>'
+        +'<div class="genres"></div>'
+        +'</div>'
+
+    ,GetTitleTile:function(title){
+        var r = jQuery(this.movie_tile_template);
+        r.find('.title').html(''+new Html(title.Title));
+        r.find('.languages').html(''+new Html(title.Languages));
+        r.find('.countries').html(''+new Html(title.Countries));
+        r.find('.genres').html(''+new Html(title.Genres));
+        jQuery('#mmx-main').append(r);
+        return r;
+    }
+
 
 };
 
