@@ -1,5 +1,6 @@
 .DS_Store
 /.idea/workspace.xml
+/.idea/watcherTasks.xml
 /log
 /tmp
 /node_modules

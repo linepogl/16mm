@@ -1,0 +1,114 @@
+$BASE : './' !default;
+@import '../oxy/css/oxy';
+
+@font-face { font-family:OpenSans; font-style:normal; font-weight:300; src:url(../fon/OpenSans300.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:normal; font-weight:400; src:url(../fon/OpenSans400.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:normal; font-weight:600; src:url(../fon/OpenSans600.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:normal; font-weight:700; src:url(../fon/OpenSans700.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:normal; font-weight:800; src:url(../fon/OpenSans800.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:italic; font-weight:300; src:url(../fon/OpenSansItalic300.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:italic; font-weight:400; src:url(../fon/OpenSansItalic400.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:italic; font-weight:600; src:url(../fon/OpenSansItalic600.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:italic; font-weight:700; src:url(../fon/OpenSansItalic700.ttf) format('truetype'); }
+@font-face { font-family:OpenSans; font-style:italic; font-weight:800; src:url(../fon/OpenSansItalic800.ttf) format('truetype'); }
+@font-face { font-family:OpenSansCondensed; font-style:normal; font-weight:300; src:url(../fon/OpenSansCondenced300.ttf) format('truetype'); }
+@font-face { font-family:OpenSansCondensed; font-style:normal; font-weight:700; src:url(../fon/OpenSansCondenced700.ttf) format('truetype'); }
+@font-face { font-family:OpenSansCondensed; font-style:italic; font-weight:300; src:url(../fon/OpenSansCondencedItalic300.ttf) format('truetype'); }
+@font-face { font-family:Yanone; font-style:normal; font-weight:200; src:url(../fon/Yanone200.ttf) format('truetype'); }
+@font-face { font-family:Yanone; font-style:normal; font-weight:300; src:url(../fon/Yanone300.ttf) format('truetype'); }
+@font-face { font-family:Yanone; font-style:normal; font-weight:400; src:url(../fon/Yanone400.ttf) format('truetype'); }
+@font-face { font-family:Yanone; font-style:normal; font-weight:700; src:url(../fon/Yanone700.ttf) format('truetype'); }
+
+@font-face {
+  font-family: 'mmx';
+  src:base-url('fon/mmx.eot');
+  src:base-url('fon/mmx.eot?#iefix') format('embedded-opentype'),
+  base-url('fon/mmx.woff') format('woff'),
+  base-url('fon/mmx.ttf') format('truetype'),
+  base-url('fon/mmx.svg#mmx') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+.mmx-icon { @extend .icon; font-family: 'mmx'; }
+
+
+$BGM0:#656d78; $BGM0h:#434a54; $TXM0:'Not seen';
+
+$color_1:#ffce54; $color_11:#f6bb42;
+$color_2:#4fc1e9; $color_22:#3bafda;
+$color_3:#ec87c0; $color_33:#d770ad;
+$color_4:#ed5565; $color_44:#da4453;
+$color_5:#48cfad; $color_55:#37bc9b;
+$color_6:#ac92ec; $color_66:#967adc;
+
+
+$xcolor_1:#ec87c0; $xcolor_11:#d770ad;
+$xcolor_2:#a0d468; $xcolor_22:#8cc152;
+$xcolor_4:#ed5565; $xcolor_44:#da4453;
+$xcolor_4:#ffce54; $xcolor_44:#f6bb42;
+
+$xcolor_3:#48cfad; $xcolor_33:#37bc9b;
+
+$xcolor_1:#ac92ec; $BGM1h:#967adc; $TXM1:'Must see';
+$xcolor_1:#ed5565; $BGM3h:#da4453; $TXM3:'Awful';
+$xcolor_1:#5d9cec; $BGM5h:#4a89dc; $TXM5:'Good';
+
+$BGA0:#656d78; $BGA0h:#434a54; $TXA0:'Not following';
+$BGA2:#ac92ec; $BGA2h:#967adc; $TXA2:'Following';
+
+$color-A:#656d78; $color-AA:#434a54;
+$color-B:#ccd1d9; $color-BB:#aab2bd;
+$color-C:#f5f7fa; $color-CC:#e6e9ed;
+
+$X:#f5f7fa; $XX:#e6e9ed;
+$Y:#ccd1d9; $YY:#aab2bd;
+$Z:#656d78; $ZZ:#434a54;
+
+$BGR:#a0d468; $BGRh:#8cc152;
+$BGR:#4fc1e9; $BGRh:#3bafda;
+$BGR:#fc6e51; $BGRh:#e9573f;
+
+body, td, th { font:14px/16px OpenSans, sans-serif; }
+body { background:$YY url(../img/bg.png); }
+
+.formPane       { border-width:0; background:rgba(255,255,255,0.8); color:$color-AA; padding:10px; border-radius:5px; font:14px/16px "OpenSans", sans-serif; letter-spacing:1px; &:focus { background:#ffffff; } }
+.formButton     { border-width:0; background:rgba(255,255,255,0.8); color:$color-AA; padding:11px 16px; border-radius:5px; font:14px/16px "OpenSans", sans-serif; letter-spacing:1px; &:hover { background:#ffffff; } }
+
+#mmx-bar {
+  background:#f0f0f0; position:fixed; top:0; left:0; width:60px; bottom:0; padding-top:60px;
+  .mmx-tab  {
+    width:60px; height:60px; padding-top:14px; cursor:pointer; box-sizing:border-box; text-align:center; font:10px/12px OpenSans;
+    color:$color-B;
+    &:hover  { color:$color-A; }
+    &.active { color:$color-AA; background:#ffffff; }
+    .icon{font-size:24px;display: block;}
+  }
+}
+
+
+#mmx-side { @extend .overflow-y;
+  background: #ffffff; position:fixed; top:0; left:60px; width:300px; bottom:0;
+
+  .mmx-title    { display:block; padding:10px 20px 0 20px; font:300 30px/32px "OpenSans",sans-serif; }
+  .mmx-subtitle { display:block; padding:30px 20px 0 20px; font:600 14px/16px "OpenSans",sans-serif; }
+  .mmx-category {
+    display:block; padding:10px 20px 10px 10px; cursor:pointer; margin:0 0 0 10px; border-radius:5px 0 0 5px;
+    &:hover { background:rgba(0,0,0,0.1); }
+//    &.active { background:rgba(0,0,0,0.2); }
+    .mmx-number { float:right; border-radius:10px; background:$color-AA; min-width:16px; min-height:16px; text-align:center; color:#ffffff; font:600 8px/8px "OpenSans",sans-serif; padding:5px 6px; box-sizing: border-box;}
+
+    &.mmx-color-1 { .icon{ color:$color-11; } &.active{ font-weight:700; color:#ffffff; background:$color-11; .icon{ color:#ffffff; } .mmx-number { background:#ffffff; color:$color-11; } } }
+    &.mmx-color-2 { .icon{ color:$color-22; } &.active{ font-weight:700; color:#ffffff; background:$color-22; .icon{ color:#ffffff; } .mmx-number { background:#ffffff; color:$color-22; } } }
+    &.mmx-color-3 { .icon{ color:$color-33; } &.active{ font-weight:700; color:#ffffff; background:$color-33; .icon{ color:#ffffff; } .mmx-number { background:#ffffff; color:$color-33; } } }
+    &.mmx-color-4 { .icon{ color:$color-44; } &.active{ font-weight:700; color:#ffffff; background:$color-44; .icon{ color:#ffffff; } .mmx-number { background:#ffffff; color:$color-44; } } }
+    &.mmx-color-5 { .icon{ color:$color-55; } &.active{ font-weight:700; color:#ffffff; background:$color-55; .icon{ color:#ffffff; } .mmx-number { background:#ffffff; color:$color-55; } } }
+    &.mmx-color-6 { .icon{ color:$color-66; } &.active{ font-weight:700; color:#ffffff; background:$color-66; .icon{ color:#ffffff; } .mmx-number { background:#ffffff; color:$color-66; } } }
+
+    input { width:200px; }
+  }
+
+}
+#mmx-main { @extend .overflow-y;
+  position:fixed; top:0; left:360px; right:0; bottom:0;
+  padding:30px;
+}
