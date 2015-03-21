@@ -98,7 +98,7 @@ class TMDb {
 	const POSTER_ORIGINAL = 'original';
 	public static function GetImageSrc( $path , $size ) {
 		$base = self::GetConfiguration()['images']['base_url'];
-		return "$base$size/$path";
+		return "$base$size$path";
 	}
 
 

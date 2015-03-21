@@ -14,26 +14,26 @@ Oxygen::Go();
 
 
 
-<div id="mmx-bar-people" class="mmx-bar">
-	<div id="mmx-tab-people" class="mmx-tab" onclick="window.mmx.ShowTab('people')">
+<div id="mmx-bar-actors" class="mmx-bar">
+	<div id="mmx-tab-actors" class="mmx-tab" onclick="window.mmx.ShowTab('actors')">
 		<?= mmx::icoPeople(); ?>
 	</div>
-	<div id="mmx-tab-people-1" class="mmx-tab" onclick="window.mmx.ShowTab('people-1')"><?= mmx::icoRatingBest(); ?></div>
-	<div id="mmx-tab-people-2" class="mmx-tab" onclick="window.mmx.ShowTab('people-2')"><?= mmx::icoRatingOkay(); ?></div>
-	<div id="mmx-tab-people-3" class="mmx-tab" onclick="window.mmx.ShowTab('people-3')"><?= mmx::icoRatingSoSo(); ?></div>
-	<div id="mmx-tab-people-4" class="mmx-tab" onclick="window.mmx.ShowTab('people-4')"><?= mmx::icoRatingFail(); ?></div>
+	<div id="mmx-tab-actors-1" class="mmx-tab" onclick="window.mmx.ShowTab('actors-1')"><?= mmx::icoRatingBest(); ?></div>
+	<div id="mmx-tab-actors-2" class="mmx-tab" onclick="window.mmx.ShowTab('actors-2')"><?= mmx::icoRatingOkay(); ?></div>
+	<div id="mmx-tab-actors-3" class="mmx-tab" onclick="window.mmx.ShowTab('actors-3')"><?= mmx::icoRatingSoSo(); ?></div>
+	<div id="mmx-tab-actors-4" class="mmx-tab" onclick="window.mmx.ShowTab('actors-4')"><?= mmx::icoRatingFail(); ?></div>
 </div>
 
-<div id="mmx-bar-titles" class="mmx-bar">
-	<div id="mmx-tab-titles" class="mmx-tab" onclick="window.mmx.ShowTab('titles')">
+<div id="mmx-bar-movies" class="mmx-bar">
+	<div id="mmx-tab-movies" class="mmx-tab" onclick="window.mmx.ShowTab('movies')">
 		<?= mmx::icoTitles(); ?>
 	</div>
-	<div id="mmx-tab-titles-1" class="mmx-tab" onclick="window.mmx.ShowTab('titles-1')"><?= mmx::icoRatingBest(); ?></div>
-	<div id="mmx-tab-titles-2" class="mmx-tab" onclick="window.mmx.ShowTab('titles-2')"><?= mmx::icoRatingOkay(); ?></div>
-	<div id="mmx-tab-titles-3" class="mmx-tab" onclick="window.mmx.ShowTab('titles-3')"><?= mmx::icoRatingSoSo(); ?></div>
-	<div id="mmx-tab-titles-4" class="mmx-tab" onclick="window.mmx.ShowTab('titles-4')"><?= mmx::icoRatingFail(); ?></div>
-	<div id="mmx-tab-titles-5" class="mmx-tab" onclick="window.mmx.ShowTab('titles-5')"><?= mmx::icoRatingHalf(); ?></div>
-	<div id="mmx-tab-titles-6" class="mmx-tab" onclick="window.mmx.ShowTab('titles-6')"><?= mmx::icoRatingStar(); ?></div>
+	<div id="mmx-tab-movies-1" class="mmx-tab" onclick="window.mmx.ShowTab('movies-1')"><?= mmx::icoRatingBest(); ?></div>
+	<div id="mmx-tab-movies-2" class="mmx-tab" onclick="window.mmx.ShowTab('movies-2')"><?= mmx::icoRatingOkay(); ?></div>
+	<div id="mmx-tab-movies-3" class="mmx-tab" onclick="window.mmx.ShowTab('movies-3')"><?= mmx::icoRatingSoSo(); ?></div>
+	<div id="mmx-tab-movies-4" class="mmx-tab" onclick="window.mmx.ShowTab('movies-4')"><?= mmx::icoRatingFail(); ?></div>
+	<div id="mmx-tab-movies-5" class="mmx-tab" onclick="window.mmx.ShowTab('movies-5')"><?= mmx::icoRatingHalf(); ?></div>
+	<div id="mmx-tab-movies-6" class="mmx-tab" onclick="window.mmx.ShowTab('movies-6')"><?= mmx::icoRatingStar(); ?></div>
 </div>
 
 <form id="mmx-search" style="display:none;" onsubmit="window.mmx.Search();return false;">
@@ -42,14 +42,11 @@ Oxygen::Go();
 	<?= TextBox::Make('searchstring') ?>
 </form>
 
-<div style="display:none;">
-	<div id="mmx-movie-tile-template" class="mmx-movie-tile">
-		<div class="title"></div>
-		<div class="languages"></div>
-		<div class="countries"></div>
-		<div class="genres"></div>
-	</div>
-</div>
+<div id="mmx-side-bar-actors" class="mmx-side-bar"></div>
+<div id="mmx-side-bar-movies" class="mmx-side-bar"></div>
+
+
+
 <!--
 
 
@@ -79,19 +76,19 @@ Oxygen::Go();
 			<?//= mmx::icoPerson() ?>
 			People
 		</div>
-		<div id="mmx-category-people-1" class="mmx-category mmx-color-1" onclick="window.mmx.ShowCategory('people-1')"><div class="mmx-number">0</div>
+		<div id="mmx-category-actors-1" class="mmx-category mmx-color-1" onclick="window.mmx.ShowCategory('actors-1')"><div class="mmx-number">0</div>
 			<?= mmx::icoRatingBest() ?>
 			Favorite
 		</div>
-		<div id="mmx-category-people-2" class="mmx-category mmx-color-2" onclick="window.mmx.ShowCategory('people-2')"><div class="mmx-number">2</div>
+		<div id="mmx-category-actors-2" class="mmx-category mmx-color-2" onclick="window.mmx.ShowCategory('actors-2')"><div class="mmx-number">2</div>
 			<?= mmx::icoRatingOkay() ?>
 			Okay
 		</div>
-		<div id="mmx-category-people-3" class="mmx-category mmx-color-3" onclick="window.mmx.ShowCategory('people-3')"><div class="mmx-number">412</div>
+		<div id="mmx-category-actors-3" class="mmx-category mmx-color-3" onclick="window.mmx.ShowCategory('actors-3')"><div class="mmx-number">412</div>
 			<?= mmx::icoRatingSoSo() ?>
 			So and so
 		</div>
-		<div id="mmx-category-people-4" class="mmx-category mmx-color-4" onclick="window.mmx.ShowCategory('people-4')"><div class="mmx-number">23</div>
+		<div id="mmx-category-actors-4" class="mmx-category mmx-color-4" onclick="window.mmx.ShowCategory('actors-4')"><div class="mmx-number">23</div>
 			<?= mmx::icoRatingFail() ?>
 			Awful
 		</div>

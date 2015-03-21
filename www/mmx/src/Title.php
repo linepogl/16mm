@@ -21,15 +21,19 @@ abstract class Title {
 	public function __construct(){}
 	public abstract function GetTitle();
 
+	public function GetImage(){
+		return $this->Image === null ? null : TMDb::GetImageSrc($this->Image,TMDb::BACKDROP_W300);
+	}
+
 	public final  function ToJson() { return json_encode($this->ToArray()); }
 	public function ToArray() {
 		$r = [];
 		$r['id'] = $this->id;
 		$r['Type'] = $this->Type;
-		$r['Title'] = $this->Title;
+		$r['Title'] = $this->GetTitle();
 		$r['Description'] = $this->Description;
 		$r['OriginalTitle'] = $this->OriginalTitle;
-		$r['Image'] = $this->Image;
+		$r['Image'] = $this->GetImage();
 		$r['CountryCodes'] = $this->Countries;
 		$r['Countries'] = array_map(function($x){return mmx::FormatCountry($x);},$this->Countries);
 		$r['LanguageCodes'] = $this->Languages;

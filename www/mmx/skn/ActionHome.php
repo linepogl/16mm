@@ -26,12 +26,12 @@ class ActionHome extends Action {
 		for ($i = 100; $i < 200; $i++) {
 			$c = Movie::Find($i);
 			if ($c === null) continue;
-			echo "window.mmx.GetTitleTile({$c->ToJson()});";
+			echo "window.mmx.AddMovieTile({$c->ToJson()});";
 		}
 		for ($i = 100; $i < 200; $i++) {
 			$c = Chain::Find($i);
 			if ($c === null) continue;
-			echo "window.mmx.GetTitleTile({$c->ToJson()});";
+			echo "window.mmx.AddMovieTile({$c->ToJson()});";
 		}
 		echo Js::END;
 
