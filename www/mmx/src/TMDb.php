@@ -57,6 +57,9 @@ class TMDb {
 	public static function GetActorCredits($id,$p=self::WEEKLY){
 		return self::Call( "person/$id/combined_credits" , $p );
 	}
+	public static function GetActorImages($id,$p=self::WEEKLY){
+		return self::Call( "person/$id/images" , $p );
+	}
 
 	public static function GetChainInfo($id,$p=self::WEEKLY){
 		return self::Call( "tv/$id" , $p );
@@ -68,6 +71,9 @@ class TMDb {
 		return self::Call( "tv/$id/images" , $p );
 	}
 
+	public static function Search($searchstring,$page = 1){
+		return self::Call( "search/multi?query=".new Url($searchstring).'&page='.$page);
+	}
 	public static function SearchMovie($searchstring,$page = 1){
 		return self::Call( "search/movie?query=".new Url($searchstring).'&page='.$page);
 	}

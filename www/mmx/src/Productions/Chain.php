@@ -1,38 +1,34 @@
 <?php
 
 
-class Chain extends Title {
+class Chain extends Movie {
 
 	public $Seasons;
 	public $Episodes;
-	public $YearFrom;
 	public $YearTill;
 
-	public function __construct() {
-		parent::__construct();
-		$this->Type = self::CHAIN;
-	}
-
-	public function GetTitle() { return $this->Title . ($this->YearFrom === null ? '' : ' ('.$this->YearFrom.($this->YearTill === null ? '' : '-'.$this->YearTill).')'); }
+	const TMDb_TYPE = 'tv';
+	public function GetKey(){ return 'C'.$this->iid; }
+	public function GetCaption() { return $this->Title . ($this->Year === null ? '' : ' ('.$this->Year.($this->YearTill === null ? '' : '-'.$this->YearTill).')'); }
 
 	public function ToArray() {
 		$r = parent::ToArray();
 		$r['Seasons'] = $this->Seasons;
 		$r['Episodes'] = $this->Episodes;
-		$r['YearFrom'] = $this->YearFrom;
+		$r['Year'] = $this->Year;
 		$r['YearTill'] = $this->YearTill;
 		return $r;
 	}
 
-	public static function Find($id) {
-		$info = TMDb::GetChainInfo($id);
+	public static function Find($iid) {
+		$info = TMDb::GetChainInfo($iid);
 		if ($info === null) return null;
 		$r = new self();
-		$r->id = $id;
+		$r->iid = $iid;
 		$r->Title = @$info['name'];
 		$r->OriginalTitle = @$info['original_name'];
 		if ($r->OriginalTitle === $r->Title) $r->OriginalTitle = null;
-		$r->Description = @$info['overview'];
+		$r->Overview = @$info['overview'];
 		$r->Image = @$info['backdrop_path'];
 		$a = @$info['origin_country'];
 		if (is_array($a)) foreach ($a as $key) {
@@ -55,13 +51,27 @@ class Chain extends Title {
 		}
 		$date = @$info['first_air_date'];
 		if ($date !== null && strlen($date)>=4) {
-			$r->YearFrom = intval(substr($date,0,4));
+			$r->Year = intval(substr($date,0,4));
 		}
 		$date = @$info['last_air_date'];
 		if ($date !== null && strlen($date)>=4) {
 			$r->YearTill = intval(substr($date,0,4));
 		}
-		if ($r->YearTill===$r->YearFrom) $r->YearTill = null;
+		if ($r->YearTill===$r->Year) $r->YearTill = null;
+		return $r;
+	}
+
+
+	public static function Search($search_string,$page=1){
+		$r = [];
+		$c = TMDb::SearchTV($search_string,$page);
+		$a = @$c['results'];
+		if (is_array($a)) foreach ($a as $aa) {
+			$iid = @$aa['id'];
+			$x = Chain::Find($iid);
+			if ($x === null) continue;
+			$r[] = $x;
+		}
 		return $r;
 	}
 

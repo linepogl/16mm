@@ -13,3 +13,7 @@ RewriteCond %{REQUEST_URI} ^/16mm/.*$
 RewriteRule ^/?$ /16mm/16mm.php  [L,NE,QSA]
 RewriteRule ^/?$ /16mm.php  [L,NE,QSA]
 
+RewriteCond %{REQUEST_URI} ^/16mm/.*$
+RewriteRule ^([_a-zA-Z0-9]+)/?$ /16mm/16mm.php?action=$1  [L,NE,QSA]
+RewriteRule ^([_a-zA-Z0-9]+)/?$ /16mm.php?action=$1  [L,NE,QSA]
+

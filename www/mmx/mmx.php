@@ -10,13 +10,15 @@ abstract class _mmx extends _mmx_dictionary {
 	//
 
 	// 000 - Basic
+	public static function icoActor                 (){ return new Glyph('mmx-icon',0xE002); }
+
 	public static function icoPeople                (){ return new Glyph('mmx-icon',0xE002); }
 	public static function icoTitles                (){ return new Glyph('mmx-icon',0xE003); }
 
 
 	public static function icoHome                  (){ return new Glyph('mmx-icon',0xE001); }
 	public static function icoPerson                (){ return new Glyph('mmx-icon',0xE002); }
-	public static function icoProduction            (){ return new Glyph('mmx-icon',0xE003); }
+	public static function icoMovie                 (){ return new Glyph('mmx-icon',0xE003); }
 
 	public static function icoRatingBest            (){ return new Glyph('mmx-icon',0xE101); }
 	public static function icoRatingOkay            (){ return new Glyph('mmx-icon',0xE102); }
