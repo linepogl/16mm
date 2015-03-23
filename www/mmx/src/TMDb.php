@@ -40,7 +40,7 @@ class TMDb {
 		return self::Call( "configuration" , $p );
 	}
 	public static function GetMovieInfo($id,$p=self::WEEKLY){
-		return self::Call( "movie/$id" , $p );
+		return self::Call( "movie/$id?append_to_response=credits,keywords" , $p );
 	}
 	public static function GetMovieCredits($id,$p=self::WEEKLY){
 		return self::Call( "movie/$id/credits" , $p );
@@ -52,7 +52,7 @@ class TMDb {
 		return self::Call( "movie/$id/similar_movies?page=$page" , $p );
 	}
 	public static function GetActorInfo($id,$p=self::WEEKLY){
-		return self::Call( "person/$id" , $p );
+		return self::Call( "person/$id?append_to_response=combined_credits" , $p );
 	}
 	public static function GetActorCredits($id,$p=self::WEEKLY){
 		return self::Call( "person/$id/combined_credits" , $p );
@@ -61,13 +61,13 @@ class TMDb {
 		return self::Call( "person/$id/images" , $p );
 	}
 
-	public static function GetChainInfo($id,$p=self::WEEKLY){
-		return self::Call( "tv/$id" , $p );
+	public static function GetTVInfo($id,$p=self::WEEKLY){
+		return self::Call( "tv/$id?append_to_response=credits,keywords" , $p );
 	}
-	public static function GetChainCredits($id,$p=self::WEEKLY){
+	public static function GetTVCredits($id,$p=self::WEEKLY){
 		return self::Call( "tv/$id/credits" , $p );
 	}
-	public static function GetChainImages($id,$p=self::WEEKLY){
+	public static function GetTVImages($id,$p=self::WEEKLY){
 		return self::Call( "tv/$id/images" , $p );
 	}
 

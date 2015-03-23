@@ -4,7 +4,21 @@ abstract class MMAction extends Action {
 //	public function GetDefaultMode(){ return Action::MODE_HTML_FRAGMENT; }
 	public function IsPermitted(){ return true; }
 
-	public final function Render(){
+	public function Render(){
+
+
+//		$c = Chain::Search('test');
+//		$c = Movie::Search('test');
+//		dump(Movie::Find(100)->Load());
+//		dump($c,null);
+
+//		dump(TMDb::GetTVInfo(44652),null);
+//		die;
+
+
+
+
+
 		echo Js::BEGIN;
 		if ($this->mode === Action::MODE_NORMAL) {
 			echo "jQuery(document).ready(function(){";
@@ -23,6 +37,6 @@ abstract class MMAction extends Action {
 	public function RenderJavascriptInitialState() {
 		echo "window.mmx.OpenTab(".new Js($this->GetName()).",".new Js($this->GetHrefPlain()).",true);";
 	}
-	public abstract function RenderJavascript();
+	public function RenderJavascript(){}
 
 }

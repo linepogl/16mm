@@ -15,35 +15,33 @@ class ActionActorCooperations extends MMAction {
 		set_time_limit(0);
 		echo "window.mmx.AddSeparator(".new Js($this->actor->GetCaption().': Cooperations').");";
 
-		$movies = [];
 		$actors = [];
+		$actor_common_movies_count = [];
 		$actor_common_movies = [];
 
-		/** @var $credit Credit */
-		foreach (Credit::FromActor($this->actor) as $credit) {
-			if ($credit->movie === null) continue;
-			$movies[] = $credit->movie;
-		}
-
-		/** @var $movie Movie */
-		foreach ($movies as $movie) {
-			foreach (Credit::FromMovie($movie) as $credit) {
-				if ($credit->actor === null) continue;
-				if ($credit->actor->iid === $this->actor->iid) continue;
-				if (array_key_exists($credit->actor->iid,$actor_common_movies))
-					$actor_common_movies[$credit->actor->iid]++;
-				else {
-					$actor_common_movies[$credit->actor->iid] = 1;
-					$actors[$credit->actor->iid] = $credit->actor;
+		/** @var $credit1 Credit */
+		/** @var $credit2 Credit */
+		foreach ($this->actor->Credits as $credit1) {
+			foreach ($credit1->movie->Credits as $credit2) {
+				if ($credit2->actor === $this->actor) continue;
+				$key = $credit2->actor->GetKey();
+				if (!array_key_exists($key,$actors)) {
+					$actor[$key] = $credit2->actor;
+					$actor_common_movies[$key] = [];
+					$actor_common_movies_count[$key] = 0;
 				}
+				$actor_common_movies[$key][] = $credit2->movie;
+				$actor_common_movies_count[$key]++;
 			}
 		}
 
-		arsort($actor_common_movies);
+		arsort($actor_common_movies_count);
 
-		foreach ($actor_common_movies as $iid => $number) {
-			$actor = $actors[$iid];
-			echo "window.mmx.AddActorTile(".$actor->ToJson().",".new Js($number).");";
+		/** @var $actor Actor */
+		foreach ($actor_common_movies_count as $key => $number) {
+			$actor = $actors[$key];
+			$json_movies = '['.implode(',',array_map( function(Movie $x){return $x->ToJson();},$actor_common_movies[$key])).']';
+			echo "window.mmx.AddActorTile(".$actor->ToJson().",".new Js($number).",".$json_movies.");";
 		}
 
 		echo "window.mmx.ResolveSeparator('No person found.',".new Js(oxy::icoEmpty()).");";

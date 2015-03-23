@@ -6,7 +6,7 @@ class ActionActors extends MMAction {
 		/** @var $actor Actor */
 		for ($i = 100; $i < 200; $i++) {
 			$actor = Actor::Find($i);
-			if ($actor===null) continue;
+			if ($actor->NotFound()) continue;
 			echo "window.mmx.AddActorTile(".$actor->ToJson().");";
 		}
 

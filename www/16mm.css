@@ -185,6 +185,7 @@ form {
   src: url("./oxy/fon/oxygen.eot?#iefix") format("embedded-opentype"), url("./oxy/fon/oxygen.woff") format("woff"), url("./oxy/fon/oxygen.ttf") format("truetype"), url("./oxy/fon/oxygen.svg#oxygen") format("svg");
   font-weight: normal;
   font-style: normal; }
+
 .icon, .oxy-icon, .mmx-icon {
   vertical-align: baseline;
   font-size: 16px;
@@ -797,7 +798,7 @@ div.tab_page {
   color: #777777 !important; }
 
 .formDropDown a.option:hover {
-  color: #000000 !important;
+  color: black !important;
   background: #f0f0f0 !important; }
 
 .formDropDownHead a.button {
@@ -838,7 +839,7 @@ div.tab_page {
   text-decoration: none; }
 
 .formDropDownFoot a.button.selected {
-  color: #000000 !important;
+  color: black !important;
   border-color: #333333;
   background-color: #d3d6c2;
   text-decoration: none; }
@@ -847,20 +848,20 @@ div.tab_page {
   float: left;
   width: 15px;
   height: 15px;
-  background: #ffffff url("./oxy/img/form-dropdown-prev.png") 50% 50% no-repeat; }
+  background: white url("./oxy/img/form-dropdown-prev.png") 50% 50% no-repeat; }
 
 .formDropDownHead a.button-next {
   float: right;
   width: 15px;
   height: 15px;
-  background: #ffffff url("./oxy/img/form-dropdown-next.png") 50% 50% no-repeat; }
+  background: white url("./oxy/img/form-dropdown-next.png") 50% 50% no-repeat; }
 
 .formDropDownFoot a.button-prev {
   float: right;
   width: 18px;
   height: 15px;
   padding: 0;
-  background: #ffffff url("./oxy/img/form-dropdown-pprev.png") 50% 50% no-repeat;
+  background: white url("./oxy/img/form-dropdown-pprev.png") 50% 50% no-repeat;
   border-right: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -871,7 +872,7 @@ div.tab_page {
   width: 18px;
   height: 15px;
   padding: 0;
-  background: #ffffff url("./oxy/img/form-dropdown-nnext.png") 50% 50% no-repeat;
+  background: white url("./oxy/img/form-dropdown-nnext.png") 50% 50% no-repeat;
   border-left: 1px dotted #aaaaaa;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -907,11 +908,11 @@ div.tab_page {
   vertical-align: 1px;
   border-radius: 0 !important;
   color: #666666 !important;
-  background: #ffffff !important; }
+  background: white !important; }
 
 .formDropDownFoot .formPane:focus {
   border: 1px solid #bbbbff !important;
-  background: #ffffff !important; }
+  background: white !important; }
 
 .formDate {
   width: 9.0em;
@@ -925,7 +926,7 @@ div.tab_page {
   margin: 0 !important;
   padding: 0 !important;
   border: 0 !important;
-  background: #ffffff !important;
+  background: white !important;
   min-width: 28px !important;
   width: 28px !important;
   height: 14px !important; }
@@ -934,7 +935,7 @@ div.tab_page {
   margin: 0 !important;
   padding: 0 !important;
   border: 0 !important;
-  background: #ffffff !important;
+  background: white !important;
   min-width: 28px !important;
   width: 28px !important;
   height: 28px !important; }
@@ -967,11 +968,11 @@ div.tab_page {
 
 .formDateDropDown td.day a:hover {
   background: #f0f0f0 !important;
-  color: #000000 !important; }
+  color: black !important; }
 
 .formDateDropDown td.selected a {
   background: #d3d6c2 !important;
-  color: #000000 !important; }
+  color: black !important; }
 
 .formColor {
   width: 4.0em;
@@ -1057,11 +1058,11 @@ div.tab_page {
 
 .formSelectDropDown a.option:hover {
   background: #f0f0f0 !important;
-  color: #000000 !important; }
+  color: black !important; }
 
 .formSelectDropDown a.option.selected {
   background: #d3d6c2 !important;
-  color: #000000 !important; }
+  color: black !important; }
 
 select[size="0"].formPane, select[size="1"].formPane, select:not([size]).formPane {
   -webkit-appearance: none !important; }
@@ -1116,8 +1117,8 @@ select[size="0"].formPane, select[size="1"].formPane, select:not([size]).formPan
   border-width: 0 !important; }
 
 .tagsinput input.not_valid {
-  background: #FBD8DB !important;
-  color: #90111A !important; }
+  background: #fbd8db !important;
+  color: #90111a !important; }
 
 .tagsinput div {
   display: block;
@@ -1156,92 +1157,110 @@ select[size="0"].formPane, select[size="1"].formPane, select:not([size]).formPan
   font-style: normal;
   font-weight: 300;
   src: url("./mmx/fon/OpenSans300.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: normal;
   font-weight: 400;
   src: url("./mmx/fon/OpenSans400.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: normal;
   font-weight: 600;
   src: url("./mmx/fon/OpenSans600.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: normal;
   font-weight: 700;
   src: url("./mmx/fon/OpenSans700.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: normal;
   font-weight: 800;
   src: url("./mmx/fon/OpenSans800.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: italic;
   font-weight: 300;
   src: url("./mmx/fon/OpenSansItalic300.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: italic;
   font-weight: 400;
   src: url("./mmx/fon/OpenSansItalic400.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: italic;
   font-weight: 600;
   src: url("./mmx/fon/OpenSansItalic600.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: italic;
   font-weight: 700;
   src: url("./mmx/fon/OpenSansItalic700.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSans;
   font-style: italic;
   font-weight: 800;
   src: url("./mmx/fon/OpenSansItalic800.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSansCondensed;
   font-style: normal;
   font-weight: 300;
   src: url("./mmx/fon/OpenSansCondenced300.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSansCondensed;
   font-style: normal;
   font-weight: 700;
   src: url("./mmx/fon/OpenSansCondenced700.ttf") format("truetype"); }
+
 @font-face {
   font-family: OpenSansCondensed;
   font-style: italic;
   font-weight: 300;
   src: url("./mmx/fon/OpenSansCondencedItalic300.ttf") format("truetype"); }
+
 @font-face {
   font-family: Yanone;
   font-style: normal;
   font-weight: 200;
   src: url("./mmx/fon/Yanone200.ttf") format("truetype"); }
+
 @font-face {
   font-family: Yanone;
   font-style: normal;
   font-weight: 300;
   src: url("./mmx/fon/Yanone300.ttf") format("truetype"); }
+
 @font-face {
   font-family: Yanone;
   font-style: normal;
   font-weight: 400;
   src: url("./mmx/fon/Yanone400.ttf") format("truetype"); }
+
 @font-face {
   font-family: Yanone;
   font-style: normal;
   font-weight: 700;
   src: url("./mmx/fon/Yanone700.ttf") format("truetype"); }
+
 @font-face {
   font-family: '16mm';
   src: url("./mmx/fon/16mm.eot");
   src: url("./mmx/fon/16mm.eot?#iefix") format("embedded-opentype"), url("./mmx/fon/16mm.woff") format("woff"), url("./mmx/fon/16mm.ttf") format("truetype"), url("./mmx/fon/16mm.svg#16mm") format("svg");
   font-weight: normal;
   font-style: normal; }
+
 .mmx-icon {
   font-family: '16mm'; }
 
@@ -1453,17 +1472,30 @@ body {
     #mmx-sidebar .mmx-info .button-open {
       display: none; }
 
-#mmx-infobar {
+#mmx-infobar1 {
   position: fixed;
   bottom: 0;
   top: 0;
   right: 0;
-  width: 250px;
+  width: auto;
   display: none; }
-  #mmx-infobar .mmx-info {
+  #mmx-infobar1 .mmx-info {
     background: #a0d468;
     float: right;
     height: 100%; }
+
+#mmx-infobar2 {
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  width: auto;
+  display: none;
+  background: #8cc152;
+  padding: 10px 0 0 10px; }
+  #mmx-infobar2 .mmx-tile {
+    zoom: 50%;
+    clear: both; }
 
 .mmx-separator {
   clear: both;
@@ -1566,5 +1598,3 @@ body {
 #mmx-foot {
   clear: both;
   padding-top: 60px; }
-
-/*# sourceMappingURL=16mm.css.map */

@@ -138,9 +138,13 @@ body { background:$YY url(mmx/img/bg.png); }
   position:fixed; bottom:0; top:0; left:60px; display:none; z-index:1000;
 	.mmx-info { background:#a0d468; float:left; height:100%; .button-open { display:none; } }
 }
-#mmx-infobar {
-  position:fixed; bottom:0; top:0; right:0; width:250px; display:none;
+#mmx-infobar1 {
+  position:fixed; bottom:0; top:0; right:0; width:auto; display:none;
 	.mmx-info { background:#a0d468; float:right; height:100%; }
+}
+#mmx-infobar2 {
+  position:fixed; bottom:0; top:0; right:0; width:auto; display:none; background:#8cc152; padding:10px 0 0 10px;
+	.mmx-tile { zoom:50%; clear:both; }
 }
 .mmx-separator { clear:both; font:300 40px/40px Yanone,sans-serif; color:$color-A; padding:30px 0 15px 0; }
 .mmx-message { clear:both; font:400 italic 16px/18px OpenSans,sans-serif; color:$color-A; margin:20px; padding:40px; border-radius:10px; background:rgba(#ffffff,0.2); box-sizing:border-box; text-align:center; .icon { font-size: 32px; margin-bottom:10px; display: block; opacity:0.4; }}
