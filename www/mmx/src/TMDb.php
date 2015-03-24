@@ -13,11 +13,12 @@ class TMDb {
 	private static $api_key = '5575cbca2608451f50c914555304c4d8';
 
 	private static $calls = [];
-	private static $checked = [];
+	private static $checked_nulls = [];
 	private static function Call($service,$cache_key = null){
-		$key = $cache_key === null ? null : 'TMDb::'.$service.'::'.$cache_key;
-		$r = $key === null ? null : Scope::$APPLICATION[$key];
-		if ($r === null && !array_key_exists($key,self::$checked)) {
+		$use_cache = $cache_key !== null;
+		$key = "TMDb:$cache_key:$service";
+		$r = $use_cache ? Scope::$APPLICATION[$key] : null;
+		if ($r === null && !array_key_exists($key,self::$checked_nulls)) {
 			$url = self::$api_base . $service . (strrpos($service,'?')===false?'?':'&') . 'api_key='. self::$api_key.'&lang=en&include_adult=true';
 			self::$calls[] = $url;
 			$ch = curl_init();
@@ -28,12 +29,9 @@ class TMDb {
 			$r = curl_exec($ch);
 			curl_close($ch);
 			$r = json_decode($r,true);
-			if ($r === null || isset($r['status_code'])) return null;
+			if ($r === null || isset($r['status_code'])) { self::$checked_nulls[$key] = true; return null; }
 			$r['timestamp'] = XDateTime::Now()->GetTimestamp();
-			if ($key !== null)
-				Scope::$APPLICATION->HARD[$key] = $r;
-			else
-				self::$checked[$key] = true;
+			if ($use_cache) Scope::$APPLICATION[$key] = $r;
 		}
 		return $r;
 	}
@@ -93,7 +91,7 @@ class TMDb {
 
 
 	private static function Save($f,$data) {
-		if ($data === null) {
+		if ($data !== null) {
 			@Fs::Ensure(dirname($f));
 			if ($fp = @fopen($f,'w')) {
 				@fprintf($fp,'<?php return %s;',var_export($data,true));
@@ -103,13 +101,14 @@ class TMDb {
 		return $data;
 	}
 	private static function GetDataPath($folder,$iid) {
-		$hex = (new ID($iid))->AsHex();
-		return sprintf('%s/%s/%s/%s/%s.php',$folder,substr($hex,0,2),substr($hex,2,2),substr($hex,4,2),substr($hex,6,2));
+		return sprintf('%s/%03d/%03d/%03d.php',$folder,$iid/1000000%1000,$iid/1000%1000,$iid%1000);
 	}
 	public static function HasActorInfo($iid) { return file_exists(self::GetDataPath(ACTOR_FOLDER,$iid)); }
 	public static function HasMovieInfo($iid) { return file_exists(self::GetDataPath(MOVIE_FOLDER,$iid)); }
 	public static function HasChainInfo($iid) { return file_exists(self::GetDataPath(CHAIN_FOLDER,$iid)); }
-	public static function GetActorInfo($iid,$force=false){ $f = self::GetDataPath(ACTOR_FOLDER,$iid); return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("person/$iid?append_to_response=combined_credits,images" )); }
+	public static function GetActorInfo($iid,$force=false){
+		$f = self::GetDataPath(ACTOR_FOLDER,$iid);
+		return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("person/$iid?append_to_response=combined_credits,images" )); }
 	public static function GetMovieInfo($iid,$force=false){ $f = self::GetDataPath(MOVIE_FOLDER,$iid); return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("movie/$iid?append_to_response=credits,keywords,images"  )); }
 	public static function GetChainInfo($iid,$force=false){ $f = self::GetDataPath(CHAIN_FOLDER,$iid); return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("tv/$iid?append_to_response=credits,keywords,images"     )); }
 
