@@ -11,13 +11,12 @@ abstract class MMAction extends Action {
 //		$c = Movie::Search('test');
 //		dump(Movie::Find(100)->Load());
 //		dump($c,null);
-
-//		dump(TMDb::GetTVInfo(44652),null);
+//		dump(TMDb::GetChainInfo(44652),null);
 //		die;
+		//dump(sprintf('%08X',13000000));
+		//$c = TMDb::GetMovieInfo(100);
+		//dump($c);
 
-
-
-		dump(sprintf('%08X',13000000));
 
 
 		echo Js::BEGIN;

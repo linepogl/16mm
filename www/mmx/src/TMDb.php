@@ -1,23 +1,23 @@
 <?php
 
-define('_DAILY',XDate::Today()->Format('Ymd'));
-define('_WEEKLY',XDate::Today()->Format('Y\wW'));
-define('_MONTHLY',XDate::Today()->Format('Ym'));
+define('DAILY',XDate::Today()->Format('Ymd'));
+define('WEEKLY',XDate::Today()->Format('Y\wW'));
+define('MONTHLY',XDate::Today()->Format('Ym'));
 
+define('ACTOR_FOLDER',Oxygen::GetDataFolder().'/actor');
+define('MOVIE_FOLDER',Oxygen::GetDataFolder().'/movie');
+define('CHAIN_FOLDER',Oxygen::GetDataFolder().'/chain');
 
 class TMDb {
 	private static $api_base = 'http://api.themoviedb.org/3/';
 	private static $api_key = '5575cbca2608451f50c914555304c4d8';
 
-	const DAILY = _DAILY;
-	const WEEKLY = _WEEKLY;
-	const MONTHLY = _MONTHLY;
-
-	public static $calls = [];
+	private static $calls = [];
+	private static $checked = [];
 	private static function Call($service,$cache_key = null){
-		$key = 'TMDb::'.$service.($cache_key===null?'':'::'.$cache_key);
-		$r = Scope::$APPLICATION->HARD[ $key ];
-		if ($r === null) {
+		$key = $cache_key === null ? null : 'TMDb::'.$service.'::'.$cache_key;
+		$r = $key === null ? null : Scope::$APPLICATION[$key];
+		if ($r === null && !array_key_exists($key,self::$checked)) {
 			$url = self::$api_base . $service . (strrpos($service,'?')===false?'?':'&') . 'api_key='. self::$api_key.'&lang=en&include_adult=true';
 			self::$calls[] = $url;
 			$ch = curl_init();
@@ -28,61 +28,92 @@ class TMDb {
 			$r = curl_exec($ch);
 			curl_close($ch);
 			$r = json_decode($r,true);
-			Scope::$APPLICATION->HARD[$key] = $r;
+			if ($r === null || isset($r['status_code'])) return null;
+			$r['timestamp'] = XDateTime::Now()->GetTimestamp();
+			if ($key !== null)
+				Scope::$APPLICATION->HARD[$key] = $r;
+			else
+				self::$checked[$key] = true;
 		}
-    if (isset($r['status_code'])) return null;
 		return $r;
 	}
+	public static function CountCalls(){ return count(self::$calls); }
 
 
 
-	public static function GetConfiguration($p=self::DAILY){
+
+
+	public static function GetConfiguration($p=DAILY){
 		return self::Call( "configuration" , $p );
 	}
-	public static function GetMovieInfo($id,$p=self::WEEKLY){
-		return self::Call( "movie/$id?append_to_response=credits,keywords,images" , $p );
+	public static function GetActorLatest($p=DAILY){
+		return self::Call( "person/latest" , $p );
 	}
-	public static function GetMovieCredits($id,$p=self::WEEKLY){
-		return self::Call( "movie/$id/credits" , $p );
+	public static function GetMovieLatest($p=DAILY){
+		return self::Call( "movie/latest" , $p );
 	}
-	public static function GetMovieImages($id,$p=self::WEEKLY){
-		return self::Call( "movie/$id/images" , $p );
-	}
-	public static function GetMovieSimilarMovies($id,$page = 1,$p=self::WEEKLY){
-		return self::Call( "movie/$id/similar_movies?page=$page" , $p );
-	}
-	public static function GetActorInfo($id,$p=self::WEEKLY){
-		return self::Call( "person/$id?append_to_response=combined_credits,images" , $p );
-	}
-	public static function GetActorCredits($id,$p=self::WEEKLY){
-		return self::Call( "person/$id/combined_credits" , $p );
-	}
-	public static function GetActorImages($id,$p=self::WEEKLY){
-		return self::Call( "person/$id/images" , $p );
+	public static function GetChainLatest($p=DAILY){
+		return self::Call( "tv/latest" , $p );
 	}
 
-	public static function GetTVInfo($id,$p=self::WEEKLY){
-		return self::Call( "tv/$id?append_to_response=credits,keywords,images" , $p );
+	public static function GetMovieCredits($iid,$p=WEEKLY){
+		return self::Call( "movie/$iid/credits" , $p );
 	}
-	public static function GetTVCredits($id,$p=self::WEEKLY){
-		return self::Call( "tv/$id/credits" , $p );
+	public static function GetMovieImages($iid,$p=WEEKLY){
+		return self::Call( "movie/$iid/images" , $p );
 	}
-	public static function GetTVImages($id,$p=self::WEEKLY){
-		return self::Call( "tv/$id/images" , $p );
+	public static function GetMovieSimilarMovies($iid,$page = 1,$p=WEEKLY){
+		return self::Call( "movie/$iid/similar_movies?page=$page" , $p );
+	}
+	public static function GetActorCredits($iid,$p=WEEKLY){
+		return self::Call( "person/$iid/combined_credits" , $p );
+	}
+	public static function GetActorImages($iid,$p=WEEKLY){
+		return self::Call( "person/$iid/images" , $p );
+	}
+	public static function GetChainCredits($iid,$p=WEEKLY){
+		return self::Call( "tv/$iid/credits" , $p );
+	}
+	public static function GetChainImages($iid,$p=WEEKLY){
+		return self::Call( "tv/$iid/images" , $p );
+	}
+	public static function Search($searchstring,$page = 1,$p=DAILY){
+		return self::Call( "search/multi?query=".new Url($searchstring).'&page='.$page , $p);
+	}
+	public static function SearchMovie($searchstring,$page = 1,$p=DAILY){
+		return self::Call( "search/movie?query=".new Url($searchstring).'&page='.$page , $p);
+	}
+	public static function SearchChain($searchstring,$page = 1,$p=DAILY){
+		return self::Call( "search/tv?query=".new Url($searchstring).'&page='.$page , $p);
+	}
+	public static function SearchActor($searchstring,$page = 1,$p=DAILY){
+		return self::Call( "search/person?query=".new Url($searchstring).'&page='.$page , $p);
 	}
 
-	public static function Search($searchstring,$page = 1){
-		return self::Call( "search/multi?query=".new Url($searchstring).'&page='.$page);
+
+
+	private static function Save($f,$data) {
+		if ($data === null) {
+			@Fs::Ensure(dirname($f));
+			if ($fp = @fopen($f,'w')) {
+				@fprintf($fp,'<?php return %s;',var_export($data,true));
+				@fclose($fp);
+			}
+		}
+		return $data;
 	}
-	public static function SearchMovie($searchstring,$page = 1){
-		return self::Call( "search/movie?query=".new Url($searchstring).'&page='.$page);
+	private static function GetDataPath($folder,$iid) {
+		$hex = (new ID($iid))->AsHex();
+		return sprintf('%s/%s/%s/%s/%s.php',$folder,substr($hex,0,2),substr($hex,2,2),substr($hex,4,2),substr($hex,6,2));
 	}
-	public static function SearchTV($searchstring,$page = 1){
-		return self::Call( "search/tv?query=".new Url($searchstring).'&page='.$page);
-	}
-	public static function SearchActor($searchstring,$page = 1){
-		return self::Call( "search/person?query=".new Url($searchstring).'&page='.$page);
-	}
+	public static function HasActorInfo($iid) { return file_exists(self::GetDataPath(ACTOR_FOLDER,$iid)); }
+	public static function HasMovieInfo($iid) { return file_exists(self::GetDataPath(MOVIE_FOLDER,$iid)); }
+	public static function HasChainInfo($iid) { return file_exists(self::GetDataPath(CHAIN_FOLDER,$iid)); }
+	public static function GetActorInfo($iid,$force=false){ $f = self::GetDataPath(ACTOR_FOLDER,$iid); return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("person/$iid?append_to_response=combined_credits,images" )); }
+	public static function GetMovieInfo($iid,$force=false){ $f = self::GetDataPath(MOVIE_FOLDER,$iid); return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("movie/$iid?append_to_response=credits,keywords,images"  )); }
+	public static function GetChainInfo($iid,$force=false){ $f = self::GetDataPath(CHAIN_FOLDER,$iid); return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("tv/$iid?append_to_response=credits,keywords,images"     )); }
+
+
 
 
 
@@ -110,35 +141,6 @@ class TMDb {
 
 
 
-
-
-	const DB_TABLE_NAME = 'mmx_tmdb';
-	const DB_ACTOR = 1;
-	const DB_MOVIE = 2;
-	const DB_CHAIN = 3;
-	private static function LoadFromDB($type,$iid) {
-		$key = 'TMDb:'.$type.':'.$iid;
-		$data = Scope::$APPLICATION[$key];
-		if ($data===null) {
-			$data = Database::ExecuteScalar('SELECT '.new SqlIden('Data').' FROM '.new SqlIden(self::DB_TABLE_NAME).' WHERE '.new SqlIden('Type').'=? AND '.new SqlIden('id').'=?',$type,$iid);
-			Scope::$APPLICATION[$key] = $data;
-		}
-		return $data;
-	}
-	private static function SaveIntoDB($type,$iid,$data){
-		$key = 'TMDb:'.$type.':'.$iid;
-		if ($data === null)
-			Database::Execute('DELETE FROM '.new SqlIden(self::DB_TABLE_NAME).' WHERE '.new SqlIden('Type').'=? AND '.new SqlIden('id').'=?',$type,$iid);
-		elseif (0 === Database::ExecuteScalar('SELECT COUNT(*) FROM '.new SqlIden(self::DB_TABLE_NAME).' WHERE '.new SqlIden('Type').'=? AND '.new SqlIden('id').'=?',$type,$iid))
-			Database::Execute('INSERT INTO '.new SqlIden(self::DB_TABLE_NAME).' ('.new SqlIden('Type').','.new SqlIden('id').','.new SqlIden('Data').') VALUES (?,?,?)',$type,$iid,$data);
-		else
-			Database::Execute('UPDATE '.new SqlIden(self::DB_TABLE_NAME).' SET '.new SqlIden('Data').'=? WHERE '.new SqlIden('Type').'=? AND '.new SqlIden('id').'=?',$data,$type,$iid);
-		Scope::$APPLICATION[$key] = $data;
-		return $data;
-	}
-
-
 }
-
 
 

@@ -30,7 +30,7 @@ class Chain extends Movie {
 	}
 
 	protected function OnLoad() {
-		$info = TMDb::GetTVInfo($this->iid);
+		$info = TMDb::GetChainInfo($this->iid);
 		if ($info === null) return false;
 		$this->_Title = @$info['name'];
 		$this->_OriginalTitle = @$info['original_name']; if ($this->_OriginalTitle === $this->_Title) $this->_OriginalTitle = null;
@@ -57,7 +57,7 @@ class Chain extends Movie {
 
 	public static function Search($search_string,$page=1,&$pages=1,&$count=0){
 		$r = [];
-		$c = TMDb::SearchTV($search_string,$page);
+		$c = TMDb::SearchChain($search_string,$page);
 		$a = @$c['results'];
 		if (is_array($a)) foreach ($a as $aa) {
 			$iid = @$aa['id'];
