@@ -7,26 +7,9 @@ if (Database::BeginPatchingSystem()) {
 	Database::ExecuteCreateStandardTable('mmx','VersionLi',Sql::Integer);
 	Database::ExecuteInsert('mmx','id',new ID(0),'VersionLi',0);
 }
-//
-//if (Database::BeginPatch("li",1,"Credits")) {
-//
-//	Database::ExecuteCreateStandardTable('mmx_pers'
-//		,'tmdb',Sql::String20
-//		,'imdb',Sql::String20
-//		,'FullName',Sql::String255
-//		,'DateUpdated',Sql::DateTime
-//		);
-//	Database::ExecuteCreateStandardTable('mmx_prod'
-//		,'tmdb',Sql::String20
-//		,'imdb',Sql::String20
-//		,'FullName',Sql::String255
-//		,'DateUpdated',Sql::DateTime
-//		);
-//	Database::ExecuteCreateStandardTable('mmx_cred'
-//		,'tmdb',Sql::String20
-//		,'imdb',Sql::String20
-//		,'FullName',Sql::String255
-//		,'DateUpdated',Sql::DateTime
-//		);
-//
-//}
+
+if (Database::BeginPatch("li",1,"TMDb")) {
+	Database::ExecuteCreateTable('mmx_tmdb', 'Type', Sql::Integer, 'id', Sql::ID, 'Data', Sql::Text);
+	Database::ExecuteAddPrimaryKey('mmx_tmdb','Type','id');
+	Database::ApplyPatch();
+}

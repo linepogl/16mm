@@ -40,7 +40,7 @@ class TMDb {
 		return self::Call( "configuration" , $p );
 	}
 	public static function GetMovieInfo($id,$p=self::WEEKLY){
-		return self::Call( "movie/$id?append_to_response=credits,keywords" , $p );
+		return self::Call( "movie/$id?append_to_response=credits,keywords,images" , $p );
 	}
 	public static function GetMovieCredits($id,$p=self::WEEKLY){
 		return self::Call( "movie/$id/credits" , $p );
@@ -52,7 +52,7 @@ class TMDb {
 		return self::Call( "movie/$id/similar_movies?page=$page" , $p );
 	}
 	public static function GetActorInfo($id,$p=self::WEEKLY){
-		return self::Call( "person/$id?append_to_response=combined_credits" , $p );
+		return self::Call( "person/$id?append_to_response=combined_credits,images" , $p );
 	}
 	public static function GetActorCredits($id,$p=self::WEEKLY){
 		return self::Call( "person/$id/combined_credits" , $p );
@@ -62,7 +62,7 @@ class TMDb {
 	}
 
 	public static function GetTVInfo($id,$p=self::WEEKLY){
-		return self::Call( "tv/$id?append_to_response=credits,keywords" , $p );
+		return self::Call( "tv/$id?append_to_response=credits,keywords,images" , $p );
 	}
 	public static function GetTVCredits($id,$p=self::WEEKLY){
 		return self::Call( "tv/$id/credits" , $p );
@@ -110,60 +110,32 @@ class TMDb {
 
 
 
-//	/** @return XDate */
-//	private static function parse_date($string){
-//		return empty($string)?null:XDate::MakeDate(intval(substr($string,0,4)),intval(substr($string,4,2)),intval(substr($string,6,2)));
-//	}
-//
-//	private static $data = null;
-//	private static function LoadData(){
-//		$filename = Oxygen::GetDataFolder(true) . '/data.json';
-//		if (file_exists($filename))
-//			self::$data = json_decode(file_get_contents($filename),true);
-//		else
-//			self::$data = ['actors' => [],'movies' => []];
-//	}
-//	public static function SaveData(){
-//		$filename = Oxygen::GetDataFolder(true) . '/data.json';
-//		file_put_contents($filename,json_encode(self::$data));
-//	}
-//
-//	public static function PinActor(Actor $actor,$pin){
-//		if($pin == 0)
-//			unset(self::$data['actors'][$actor->id]);
-//		else
-//			self::$data['actors'][$actor->id]=$pin;
-//		return $pin;
-//	}
-//	public static function GetActorPin(Actor $actor){
-//		return isset(self::$data['actors'][$actor->id]) ? self::$data['actors'][$actor->id] : 0;
-//	}
-//	public static function GetPinnedActors($pin = null){
-//		$r = [];
-//		foreach (self::$data['actors'] as $id => $pin2)
-//			if ($pin === null || $pin === $pin2)
-//				$r[$id] = Actor::Pick($id);
-//		return $r;
-//	}
-//
-//	public static function PinMovie(Movie $movie,$pin){
-//		if($pin == 0)
-//			unset(self::$data['movies'][$movie->id]);
-//		else
-//			self::$data['movies'][$movie->id]=$pin;
-//		return $pin;
-//	}
-//	public static function GetMoviePin(Movie $movie){
-//		return isset(self::$data['movies'][$movie->id]) ? self::$data['movies'][$movie->id] : 0;
-//	}
-//	public static function GetPinnedMovies($pin = null){
-//		$r = [];
-//		foreach (self::$data['movies'] as $id => $pin2)
-//			if ($pin === null || $pin2 === $pin)
-//				$r[$id] = Movie::Pick($id);
-//		return $r;
-//	}
 
+
+	const DB_TABLE_NAME = 'mmx_tmdb';
+	const DB_ACTOR = 1;
+	const DB_MOVIE = 2;
+	const DB_CHAIN = 3;
+	private static function LoadFromDB($type,$iid) {
+		$key = 'TMDb:'.$type.':'.$iid;
+		$data = Scope::$APPLICATION[$key];
+		if ($data===null) {
+			$data = Database::ExecuteScalar('SELECT '.new SqlIden('Data').' FROM '.new SqlIden(self::DB_TABLE_NAME).' WHERE '.new SqlIden('Type').'=? AND '.new SqlIden('id').'=?',$type,$iid);
+			Scope::$APPLICATION[$key] = $data;
+		}
+		return $data;
+	}
+	private static function SaveIntoDB($type,$iid,$data){
+		$key = 'TMDb:'.$type.':'.$iid;
+		if ($data === null)
+			Database::Execute('DELETE FROM '.new SqlIden(self::DB_TABLE_NAME).' WHERE '.new SqlIden('Type').'=? AND '.new SqlIden('id').'=?',$type,$iid);
+		elseif (0 === Database::ExecuteScalar('SELECT COUNT(*) FROM '.new SqlIden(self::DB_TABLE_NAME).' WHERE '.new SqlIden('Type').'=? AND '.new SqlIden('id').'=?',$type,$iid))
+			Database::Execute('INSERT INTO '.new SqlIden(self::DB_TABLE_NAME).' ('.new SqlIden('Type').','.new SqlIden('id').','.new SqlIden('Data').') VALUES (?,?,?)',$type,$iid,$data);
+		else
+			Database::Execute('UPDATE '.new SqlIden(self::DB_TABLE_NAME).' SET '.new SqlIden('Data').'=? WHERE '.new SqlIden('Type').'=? AND '.new SqlIden('id').'=?',$data,$type,$iid);
+		Scope::$APPLICATION[$key] = $data;
+		return $data;
+	}
 
 
 }

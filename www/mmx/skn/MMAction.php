@@ -17,6 +17,7 @@ abstract class MMAction extends Action {
 
 
 
+		dump(sprintf('%08X',13000000));
 
 
 		echo Js::BEGIN;
