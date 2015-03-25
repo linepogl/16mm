@@ -14,7 +14,7 @@ class ActionActorCredits extends MMAction {
 	public function RenderJavascript(){
 		echo "window.mmx.AddSeparator(".new Js($this->actor->GetCaption().': Credits').");";
 		/** @var $credit Credit */
-		foreach ($this->actor->GetCreditsSorted() as $credit) {
+		foreach ($this->actor->Credits as $credit) {
 			echo "window.mmx.AddMovieTile(".$credit->movie->ToJson().",".new Js($credit->GetExtra()).");";
 		}
 		echo "window.mmx.ResolveSeparator('No production found.',".new Js(oxy::icoEmpty()).");";

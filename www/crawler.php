@@ -15,25 +15,33 @@ if ($iid >= $iid_end) $iid = 1;
 
 for ($iid = intval(@file_get_contents("$dat_folder/crawler"))+1; $iid < $iid_end; $iid++) {
 
-	if ($iid < $iid_end_actor && !TMDb::HasActorInfo($iid)) {
-		$data = TMDb::GetActorInfo($iid);
-		$log('Actor %s%s',$iid,$data === null?'':' new!');
+	if ($iid < $iid_end_actor) {
+		$x = Actor::Find($iid);
+		if (!$x->HasDataFile()) {
+			$x->Load();
+			$log('Actor %s%s', $iid, $x->Found ? ' new!' : '');
+		}
+	}
+	if ($iid < $iid_end_movie) {
+		$x = Movie::Find($iid);
+		if (!$x->HasDataFile()) {
+			$x->Load();
+			$log('Movie %s%s', $iid, $x->Found ? ' new!' : '');
+		}
+	}
+	if ($iid < $iid_end_chain) {
+		$x = Chain::Find($iid);
+		if (!$x->HasDataFile()) {
+			$x->Load();
+			$log('Chain %s%s', $iid, $x->Found ? ' new!' : '');
+		}
 	}
 
-	if ($iid < $iid_end_movie && !TMDb::HasMovieInfo($iid)) {
-		$data = TMDb::GetMovieInfo($iid);
-		$log('Movie %s%s',$iid,$data === null?'':' new!');
-	}
-
-	if ($iid < $iid_end_chain && !TMDb::HasChainInfo($iid)) {
-		$data = TMDb::GetChainInfo($iid);
-		$log('Chain %s%s',$iid,$data === null?'':' new!');
-	}
 
 	file_put_contents("$dat_folder/crawler",$iid);
 	if (TMDb::CountCalls() >= 15) break;
 }
-
+//die;
 sleep(8);
 if ($iid < $iid_end) {
 	Http::Fire(Oxygen::GetHrefBaseFull().basename(__FILE__));

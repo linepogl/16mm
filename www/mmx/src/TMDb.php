@@ -30,7 +30,7 @@ class TMDb {
 			curl_close($ch);
 			$r = json_decode($r,true);
 			if ($r === null || isset($r['status_code'])) { self::$checked_nulls[$key] = true; return null; }
-			$r['timestamp'] = XDateTime::Now()->GetTimestamp();
+			$r['timestamp'] = XDateTime::Now()->AsInt();
 			if ($use_cache) Scope::$APPLICATION[$key] = $r;
 		}
 		return $r;
@@ -38,79 +38,89 @@ class TMDb {
 	public static function CountCalls(){ return count(self::$calls); }
 
 
+	public static function Filter($a){
+
+		$r = [];
+		foreach ($a as $key => $value) {
+			if ($value === null) continue;
 
 
 
-	public static function GetConfiguration($p=DAILY){
-		return self::Call( "configuration" , $p );
-	}
-	public static function GetActorLatest($p=DAILY){
-		return self::Call( "person/latest" , $p );
-	}
-	public static function GetMovieLatest($p=DAILY){
-		return self::Call( "movie/latest" , $p );
-	}
-	public static function GetChainLatest($p=DAILY){
-		return self::Call( "tv/latest" , $p );
-	}
-
-	public static function GetMovieCredits($iid,$p=WEEKLY){
-		return self::Call( "movie/$iid/credits" , $p );
-	}
-	public static function GetMovieImages($iid,$p=WEEKLY){
-		return self::Call( "movie/$iid/images" , $p );
-	}
-	public static function GetMovieSimilarMovies($iid,$page = 1,$p=WEEKLY){
-		return self::Call( "movie/$iid/similar_movies?page=$page" , $p );
-	}
-	public static function GetActorCredits($iid,$p=WEEKLY){
-		return self::Call( "person/$iid/combined_credits" , $p );
-	}
-	public static function GetActorImages($iid,$p=WEEKLY){
-		return self::Call( "person/$iid/images" , $p );
-	}
-	public static function GetChainCredits($iid,$p=WEEKLY){
-		return self::Call( "tv/$iid/credits" , $p );
-	}
-	public static function GetChainImages($iid,$p=WEEKLY){
-		return self::Call( "tv/$iid/images" , $p );
-	}
-	public static function Search($searchstring,$page = 1,$p=DAILY){
-		return self::Call( "search/multi?query=".new Url($searchstring).'&page='.$page , $p);
-	}
-	public static function SearchMovie($searchstring,$page = 1,$p=DAILY){
-		return self::Call( "search/movie?query=".new Url($searchstring).'&page='.$page , $p);
-	}
-	public static function SearchChain($searchstring,$page = 1,$p=DAILY){
-		return self::Call( "search/tv?query=".new Url($searchstring).'&page='.$page , $p);
-	}
-	public static function SearchActor($searchstring,$page = 1,$p=DAILY){
-		return self::Call( "search/person?query=".new Url($searchstring).'&page='.$page , $p);
-	}
-
-
-
-	private static function Save($f,$data) {
-		if ($data !== null) {
-			@Fs::Ensure(dirname($f));
-			if ($fp = @fopen($f,'w')) {
-				@fprintf($fp,'<?php return %s;',var_export($data,true));
-				@fclose($fp);
-			}
 		}
-		return $data;
+
+
+		unset($a['also_known_as']);
+		unset($a['adult']);
+		unset($a['homepage']);
+		unset($a['popularity']);
+		if (isset($a['combined_credits']['cast'])) foreach ($a['combined_credits']['cast'] as &$aa) {
+			unset($aa['adult']);
+			unset($aa['department']);
+			unset($aa['original_title']);
+			unset($aa['poster_path']);
+			unset($aa['title']);
+		}
+		if (isset($a['combined_credits']['crew'])) foreach ($a['combined_credits']['crew'] as &$aa) {
+			unset($aa['adult']);
+			unset($aa['department']);
+			unset($aa['original_title']);
+			unset($aa['poster_path']);
+			unset($aa['title']);
+		}
+
+		$a = array_filter($a,function($v){return $v!==null;});
+		dump(self::Export($a));
+
 	}
-	private static function GetDataPath($folder,$iid) {
-		return sprintf('%s/%03d/%03d/%03d.php',$folder,$iid/1000000%1000,$iid/1000%1000,$iid%1000);
+
+	public static function Export($a){
+		if (is_array($a)) {
+			$is_numeric = true; $i = 0; foreach ($a as $key=>$aa) if ($key !== $i++) { $is_numeric = false; break; }
+			ob_start();
+			echo "[\n";
+			foreach ($a as $key => $aa) {
+				if ($is_numeric)
+					echo self::export($aa),",\n";
+				else
+					echo self::export($key),'=>',self::export($aa),",\n";
+			}
+			echo ']';
+			return ob_get_clean();
+		}
+		elseif ($a===null)
+			return 'null';
+		else
+			return var_export($a,true);
 	}
-	public static function HasActorInfo($iid) { return file_exists(self::GetDataPath(ACTOR_FOLDER,$iid)); }
-	public static function HasMovieInfo($iid) { return file_exists(self::GetDataPath(MOVIE_FOLDER,$iid)); }
-	public static function HasChainInfo($iid) { return file_exists(self::GetDataPath(CHAIN_FOLDER,$iid)); }
-	public static function GetActorInfo($iid,$force=false){
-		$f = self::GetDataPath(ACTOR_FOLDER,$iid);
-		return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("person/$iid?append_to_response=combined_credits,images" )); }
-	public static function GetMovieInfo($iid,$force=false){ $f = self::GetDataPath(MOVIE_FOLDER,$iid); return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("movie/$iid?append_to_response=credits,keywords,images"  )); }
-	public static function GetChainInfo($iid,$force=false){ $f = self::GetDataPath(CHAIN_FOLDER,$iid); return file_exists($f) && !$force ? include($f) : self::Save($f,self::Call("tv/$iid?append_to_response=credits,keywords,images"     )); }
+
+
+
+	public static function GetConfiguration($p=DAILY){ return self::Call( "configuration" , $p ); }
+	public static function Find($id,$p=DAILY){ return self::Call( "find/$id?external_source=imdb" , $p ); }
+
+	public static function GetMovieInfo($iid,$p=DAILY){ return self::Call("movie/$iid?append_to_response=credits,keywords,images" , $p ); }
+	public static function GetMovieCredits($iid,$p=WEEKLY){ return self::Call( "movie/$iid/credits" , $p ); }
+	public static function GetMovieImages($iid,$p=WEEKLY){ return self::Call( "movie/$iid/images" , $p ); }
+	public static function GetMovieSimilarMovies($iid,$page = 1,$p=WEEKLY){ return self::Call( "movie/$iid/similar_movies?page=$page" , $p ); }
+	public static function GetMovieLatest($p=DAILY){ return self::Call( "movie/latest" , $p ); }
+
+	public static function GetActorInfo($iid,$p=DAILY){ return self::Call("person/$iid?append_to_response=combined_credits,images" ,$p); }
+	public static function GetActorCredits($iid,$p=WEEKLY){ return self::Call( "person/$iid/combined_credits" , $p ); }
+	public static function GetActorImages($iid,$p=WEEKLY){ return self::Call( "person/$iid/images" , $p ); }
+	public static function GetActorLatest($p=DAILY){ return self::Call( "person/latest" , $p ); }
+
+	public static function GetChainInfo($iid,$p=DAILY){ return self::Call("tv/$iid?append_to_response=credits,keywords,images" , $p); }
+	public static function GetChainCredits($iid,$p=WEEKLY){ return self::Call( "tv/$iid/credits" , $p ); }
+	public static function GetChainImages($iid,$p=WEEKLY){ return self::Call( "tv/$iid/images" , $p ); }
+	public static function GetChainLatest($p=DAILY){ return self::Call( "tv/latest" , $p ); }
+
+	public static function Search($searchstring,$page = 1,$p=DAILY){ return self::Call( "search/multi?query=".new Url($searchstring).'&page='.$page , $p); }
+	public static function SearchMovie($searchstring,$page = 1,$p=DAILY){ return self::Call( "search/movie?query=".new Url($searchstring).'&page='.$page , $p); }
+	public static function SearchChain($searchstring,$page = 1,$p=DAILY){ return self::Call( "search/tv?query=".new Url($searchstring).'&page='.$page , $p); }
+	public static function SearchActor($searchstring,$page = 1,$p=DAILY){ return self::Call( "search/person?query=".new Url($searchstring).'&page='.$page , $p); }
+
+
+
 
 
 

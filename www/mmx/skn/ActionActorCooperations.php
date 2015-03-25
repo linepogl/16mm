@@ -26,7 +26,7 @@ class ActionActorCooperations extends MMAction {
 				if ($credit2->actor === $this->actor) continue;
 				$key = $credit2->actor->GetKey();
 				if (!array_key_exists($key,$actors)) {
-					$actor[$key] = $credit2->actor;
+					$actors[$key] = $credit2->actor;
 					$actor_common_movies[$key] = [];
 					$actor_common_movies_count[$key] = 0;
 				}
