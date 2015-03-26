@@ -6,9 +6,16 @@ require('_.php');
 //die;
 //$x = Actor::Find(1);
 //$x = Movie::Find(100);
-$x = Chain::Find(500);
-$x->Load();
-dump($x);
+//$x = Chain::Find(500);
+//$x->Load();
+
+//$x = TMDb::GetMovieInfo(100);
+//$x = TMDb::GetActorInfo(100);
+//$x = TMDb::GetChainInfo(500);
+
+$x = CouchDB::Save('movie',1,'{"test":"test"}');
+$x = CouchDB::Load('movie',1);
+dump($x,null);
 
 
 
