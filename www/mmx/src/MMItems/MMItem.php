@@ -9,33 +9,45 @@ abstract class MMItem {
 	protected $_Timestamp = null;
 	protected $_Found = false;
 
-	public abstract function GetKey();
-	public final function ToJson() { return json_encode($this->ToArray()); }
-	public abstract function ToArray();
+	public function __get($name) { $this->Load(); return $this->{'_'.$name}; }
 
-	protected abstract function LoadFromTMDb();
-	protected abstract function LoadFromFile();
-	protected abstract function SaveIntoFile();
+	public abstract function GetKey();
+	public abstract function ToArray();
+	public final function ToJson() { return json_encode($this->ToArray()); }
+
+
+	/** @return string */ protected abstract function GetCouchUrl();
+	/** @return array */  protected abstract function GetTMDbInfo();
+	/** @return bool  */  protected abstract function LoadInfo($info);
+
 	public final function Load($force = false) {
 		if ($this->_Timestamp === null || $force) {
 			$this->_Found = false;
 			$this->_Timestamp = XDateTime::Now()->AsInt();
-			if (!$force) $this->_Found = $this->LoadFromFile();
+
+			$couch_url = $this->GetCouchUrl();
+
+			$info1 = null;
+			$q = CouchDB::Load($couch_url);
+			if ($q->IsOK()) $info1 = $q->GetResultArray();
+			if ($info1 !== null && !$force) {
+				$this->_Found = $this->LoadInfo($info1);
+			}
+
 			if (!$this->_Found) {
-				$this->_Found = $this->LoadFromTMDb();
-				if ($this->_Found) $this->SaveIntoFile();
+				$info2 = $this->GetTMDbInfo();
+				if ($info2 !== null) {
+					if ($info1 !== null) $info2['_id'] = $info1['_id'];
+					$this->_Found = $this->LoadInfo($info2);
+					if ($this->_Found) {
+						if ($info1 !== null) $info2['_rev'] = $info1['_rev'];
+						CouchDB::Save($couch_url,$info2);
+					}
+				}
 			}
 		}
 		return $this;
 	}
-
-
-	public function __get($name) { $this->Load(); return $this->{'_'.$name}; }
-
-
-
-	public abstract function GetDataPath();
-	public final function HasDataFile(){ return file_exists($this->GetDataPath()); }
 
 
 }

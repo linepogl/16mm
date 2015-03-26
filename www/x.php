@@ -10,11 +10,11 @@ require('_.php');
 //$x->Load();
 
 //$x = TMDb::GetMovieInfo(100);
-//$x = TMDb::GetActorInfo(100);
+$x = TMDb::GetActorInfo(100);
 //$x = TMDb::GetChainInfo(500);
 
-$x = CouchDB::Save('movie',1,'{"test":"test"}');
-$x = CouchDB::Load('movie',1);
+//$x = CouchDB::Save('movie',1,'{"test":"test"}');
+//$x = CouchDB::Load('movie',1);
 dump($x,null);
 
 

@@ -1,73 +1,70 @@
 <?php
 
+
+
 class CouchDB {
+	private static $host = '127.0.0.1';
+	private static $port = 5984;
 
 
-	private static $base = 'http://127.0.0.1:5984/tmdb/';
+	private function __construct(){}
+	private $code = 200;
+	private $text = '';
+	private $body = '';
+	public function IsOK(){ return $this->code >= 200 && $this->code <= 299; }
+	public function GetResultArray(){ return json_decode($this->body,true); }
 
-	public static function Save($type,$iid,$data) {
-		$url = self::$base.$type.'_'.$iid;
-		$url = self::$base.'234243';
-		$data = '{}';
 
-		//try {
-		//try {
-			$r = Http::Call($url,'PUT',[],$data,'application/json');
-		//}
-		//catch (Exception $ex) {
-		//	dump($ex,null);
-		//	die;
-		//}
 
-		//$r = self::call('/tmdb/'.$type.'_'.$iid,'DELETE',null);
-		//dump($r);
+	private static function call($request) {
+		$socket = fsockopen(self::$host,self::$port,$err_code,$err_string);
+		fwrite($socket, $request);
 
-		//$data = '{"data":'.$data.'}';
-		//$r = self::call('/tmdb/'.$type.'_'.$iid,'PUT',$data);
-		//dump($r);
+		$r = new self();
+
+		$head = true;
+		$first = rtrim(fgets($socket));
+		preg_match('/^HTTP[^ ]+ ([0-9]+) (.*)/',$first,$matches);
+		$r->code = intval(@$matches[1]);
+		$r->text = @$matches[2];
+
+		while(!feof($socket)) {
+			$line = fgets($socket);
+			if ($head)
+				$head = trim($line) !== '';
+			else
+				$r->body .= $line;
+		}
+		$r->body = substr($r->body,0,-1);
+
+		return $r;
 	}
-
-	public static function Load($type,$iid) {
-		$url = self::$base.$type.'_'.$iid;
-		//try {
-		//	$s = Http::Call($url);
-		//}
-		//catch (Exception $ex){
-			$s = null;
-		//}
-		return $s;
+	private static function GET($what) {
+		$req = "GET $what HTTP/1.0\r\n";
+		$req .= "Host: ".self::$host."\r\n";
+		$req .= "Accept: application/json,text/html,text/plain,*/*\r\n";
+		$req .= "\r\n";
+		return self::call($req);
 	}
-
-
-
-	private static function call($relative_url,$method,$data){
-		$req = "$method $relative_url HTTP/1.0\r\nHost: 127.0.0.1\r\n";
-		$req.="Accept: application/json,text/html,text/plain,*/*\r\n";
-		$req .= 'Content-Type: application/json'."\r\n";
-
-		if ($data) {
-				$req .= 'Content-Length: '.strlen($data)."\r\n\r\n";
-				$req .= $data."\r\n";
-		} else {
-				$req .= "\r\n";
-			}
-
-
-		$socket = @fsockopen('127.0.0.1',5984, $err_num, $err_string);
-
-		fwrite($socket, $req);
-		$response = '';
-		while(!feof($socket))
-			$response .= fgets($socket);
-
-
-		return $response;
-
+	private static function PUT($what,$data) {
+		$req = "PUT $what HTTP/1.0\r\n";
+		$req .= "Host: ".self::$host."\r\n";
+		$req .= "Accept: application/json,text/html,text/plain,*/*\r\n";
+		$req .= "Content-Type: application/json\r\n";
+		$req .= "Content-Length: ".strlen($data)."\r\n";
+		$req .= "\r\n";
+		$req .= $data;
+		$req .= "\r\n";
+		return self::call($req);
 	}
 
 
-
-
+	public static function Load($what) {
+		return self::GET($what);
+	}
+	public static function Save($what,$data=array()) {
+		return self::PUT($what,json_encode($data,JSON_FORCE_OBJECT));
+	}
 
 
 }

@@ -59,15 +59,18 @@ class TMDb {
 	public static function GetConfiguration($p=DAILY){ return self::Call( "configuration" , $p ); }
 	public static function Find($id,$p=DAILY){ return self::Call( "find/$id?external_source=imdb" , $p ); }
 
+	public static function GetActorInfo($iid,$p=DAILY){ return self::Call("person/$iid?append_to_response=combined_credits,images",$p); }
+	public static function GetActorCredits($iid,$p=WEEKLY){ return self::Call( "person/$iid/combined_credits" , $p ); }
+	public static function GetActorImages($iid,$p=WEEKLY){ return self::Call( "person/$iid/images" , $p ); }
+	public static function GetActorLatest($p=DAILY){ return self::Call( "person/latest" , $p ); }
+
+	public static function GetMovieInfo($iid,$p=DAILY){ return self::Call("movie/$iid?append_to_response=credits,keywords,images",$p); }
 	public static function GetMovieCredits($iid,$p=WEEKLY){ return self::Call( "movie/$iid/credits" , $p ); }
 	public static function GetMovieImages($iid,$p=WEEKLY){ return self::Call( "movie/$iid/images" , $p ); }
 	public static function GetMovieSimilarMovies($iid,$page = 1,$p=WEEKLY){ return self::Call( "movie/$iid/similar_movies?page=$page" , $p ); }
 	public static function GetMovieLatest($p=DAILY){ return self::Call( "movie/latest" , $p ); }
 
-	public static function GetActorCredits($iid,$p=WEEKLY){ return self::Call( "person/$iid/combined_credits" , $p ); }
-	public static function GetActorImages($iid,$p=WEEKLY){ return self::Call( "person/$iid/images" , $p ); }
-	public static function GetActorLatest($p=DAILY){ return self::Call( "person/latest" , $p ); }
-
+	public static function GetChainInfo($iid,$p=DAILY){ return self::Call( "tv/$iid?append_to_response=credits,keywords,images" , $p ); }
 	public static function GetChainCredits($iid,$p=WEEKLY){ return self::Call( "tv/$iid/credits" , $p ); }
 	public static function GetChainImages($iid,$p=WEEKLY){ return self::Call( "tv/$iid/images" , $p ); }
 	public static function GetChainLatest($p=DAILY){ return self::Call( "tv/latest" , $p ); }
@@ -77,89 +80,6 @@ class TMDb {
 	public static function SearchChain($searchstring,$page = 1,$p=DAILY){ return self::Call( "search/tv?query=".new Url($searchstring).'&page='.$page , $p); }
 	public static function SearchActor($searchstring,$page = 1,$p=DAILY){ return self::Call( "search/person?query=".new Url($searchstring).'&page='.$page , $p); }
 
-
-	public static function GetActorInfo($iid,$p=DAILY){
-		$r = self::Call("person/$iid?append_to_response=combined_credits,images" ,$p);
-		$r = self::CleanUpActorInfo($r);
-		return $r;
-	}
-	public static function GetMovieInfo($iid,$p=DAILY) {
-		$r = self::Call("movie/$iid?append_to_response=credits,keywords,images",$p);
-		$r = self::CleanUpMovieInfo($r);
-		return $r;
-	}
-	public static function GetChainInfo($iid,$p=DAILY) {
-		$r = self::Call("tv/$iid?append_to_response=credits,keywords,images",$p);
-		$r = self::CleanUpChainInfo($r);
-		return $r;
-	}
-	private static function CleanUpActorInfo($info){
-		unset($info['also_known_as']);
-		unset($info['homepage']);
-		unset($info['popularity']);
-    if (isset($info['biography'])) {
-			$info['biography'] =
-				preg_replace('/\s*From Wikipedia, the free encyclopedia.\s*/','',
-				preg_replace('/\s*Description above from the Wikipedia article .*, licensed under CC-BY-SA, full list of contributors on Wikipedia.\s*/',''
-				,$info['biography']));
-		}
-		Arr::UnsetPath($info,['combined_credits','cast',null,'original_title']);
-		Arr::UnsetPath($info,['combined_credits','cast',null,'poster_path']);
-		Arr::UnsetPath($info,['combined_credits','cast',null,'title']);
-		Arr::UnsetPath($info,['combined_credits','cast',null,'name']);
-		Arr::UnsetPath($info,['combined_credits','cast',null,'original_name']);
-		Arr::UnsetPath($info,['images',null,null,'aspect_ratio']);
-		Arr::UnsetPath($info,['images',null,null,'iso_639_1']);
-		Arr::UnsetPath($info,['images',null,null,'vote_average']);
-		Arr::UnsetPath($info,['images',null,null,'vote_count']);
-		Arr::UnsetPath($info,['images',null,null,'id']);
-		return $info;
-	}
-	public static function CleanUpMovieInfo($info){
-		unset($info['budget']);
-		unset($info['homepage']);
-		unset($info['original_language']);
-		unset($info['popularity']);
-		unset($info['production_companies']);
-		unset($info['revenue']);
-		unset($info['video']);
-		unset($info['vote_average']);
-		unset($info['vote_count']);
-		Arr::UnsetPath($info,['spoken_languages',null,'name']);
-		Arr::UnsetPath($info,['production_countries',null,'name']);
-		Arr::UnsetPath($info,['credits','cast',null,'cast_id']);
-		Arr::UnsetPath($info,['credits','cast',null,'order']);
-		Arr::UnsetPath($info,['credits','cast',null,'name']);
-		Arr::UnsetPath($info,['credits','cast',null,'profile_path']);
-		Arr::UnsetPath($info,['credits','crew',null,'name']);
-		Arr::UnsetPath($info,['credits','crew',null,'profile_path']);
-		Arr::UnsetPath($info,['images',null,null,'aspect_ratio']);
-		Arr::UnsetPath($info,['images',null,null,'iso_639_1']);
-		Arr::UnsetPath($info,['images',null,null,'vote_average']);
-		Arr::UnsetPath($info,['images',null,null,'vote_count']);
-		Arr::UnsetPath($info,['images',null,null,'id']);
-		return $info;
-	}
-	public static function CleanUpChainInfo($info){
-		unset($info['created_by']);
-		unset($info['homepage']);
-		unset($info['networks']);
-		unset($info['original_language']);
-		unset($info['popularity']);
-		unset($info['production_companies']);
-		unset($info['vote_average']);
-		unset($info['vote_count']);
-		Arr::UnsetPath($info,['credits','cast',null,'name']);
-		Arr::UnsetPath($info,['credits','cast',null,'profile_path']);
-		Arr::UnsetPath($info,['credits','cast',null,'order']);
-		Arr::UnsetPath($info,['credits','crew',null,'profile_path']);
-		Arr::UnsetPath($info,['images',null,null,'aspect_ratio']);
-		Arr::UnsetPath($info,['images',null,null,'iso_639_1']);
-		Arr::UnsetPath($info,['images',null,null,'vote_average']);
-		Arr::UnsetPath($info,['images',null,null,'vote_count']);
-		Arr::UnsetPath($info,['images',null,null,'id']);
-		return $info;
-	}
 
 
 

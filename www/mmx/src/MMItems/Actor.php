@@ -48,28 +48,52 @@ class Actor extends MMItem {
 		return $r;
 	}
 
-	private static function HealCharacter($s){ return str_replace(['himself','herself'],['Himself','Herself'],$s); }
-	private static function HealBiography($s){ return empty($s) ? null :
-		preg_replace('/\s*From Wikipedia, the free encyclopedia.\s*/','',
-		preg_replace('/\s*Description above from the Wikipedia article .*, licensed under CC-BY-SA, full list of contributors on Wikipedia.\s*/','',
-		$s));
-	}
-	protected function LoadFromTMDb() {
+
+
+
+	protected function GetCouchUrl(){ return "/actor/$this->iid"; }
+
+
+	/** @return array */
+	protected function GetTMDbInfo() {
 		$info = TMDb::GetActorInfo($this->iid);
+		if ($info === null) return null;
+		unset($info['also_known_as']);
+		unset($info['homepage']);
+		unset($info['popularity']);
+	   if (isset($info['biography'])) {
+			$info['biography'] =
+				preg_replace('/\s*From Wikipedia, the free encyclopedia.\s*/','',
+				preg_replace('/\s*Description above from the Wikipedia article .*, licensed under CC-BY-SA, full list of contributors on Wikipedia.\s*/',''
+				,$info['biography']));
+		}
+		Arr::UnsetPath($info,['combined_credits','cast',null,'original_title']);
+		Arr::UnsetPath($info,['combined_credits','cast',null,'poster_path']);
+		Arr::UnsetPath($info,['combined_credits','cast',null,'title']);
+		Arr::UnsetPath($info,['combined_credits','cast',null,'name']);
+		Arr::UnsetPath($info,['combined_credits','cast',null,'original_name']);
+		Arr::UnsetPath($info,['images',null,null,'aspect_ratio']);
+		Arr::UnsetPath($info,['images',null,null,'iso_639_1']);
+		Arr::UnsetPath($info,['images',null,null,'vote_average']);
+		Arr::UnsetPath($info,['images',null,null,'vote_count']);
+		Arr::UnsetPath($info,['images',null,null,'id']);
+		return $info;
+	}
+	protected function LoadInfo($info){
 		if ($info === null) return false;
 		$this->_Timestamp = intval(@$info['timestamp']) ?: null;
 		$this->_imdb = @$info['imdb_id'];
 		$this->_Name = @$info['name'];
-		$this->_Biography = self::HealBiography(@$info['biography']);
+		$this->_Biography = @$info['biography'];
 		$this->_Image = @$info['profile_path'];
 		$this->_YearOfBirth = strlen($d = @$info['birthday'])<4 ? null : intval(substr($d,0,4));
 		$this->_YearOfDeath = strlen($d = @$info['deathday'])<4 ? null : intval(substr($d,0,4));
 		$this->_PlaceOfBirth = @$info['place_of_birth'];
-		$this->LoadCreditsFromTMDb($info);
-		$this->LoadPicturesFromTMDb($info);
+		$this->LoadCredits($info);
+		$this->LoadPictures($info);
 		return true;
 	}
-	protected final function LoadCreditsFromTMDb($info) {
+	protected final function LoadCredits($info) {
 		$this->_Credits = [];
 		$a = [];
 		$c = [];
@@ -86,13 +110,11 @@ class Actor extends MMItem {
 				$credit = new Credit($movie,$this);
 				$this->_Credits[] = $credit;
 			}
-			$credit->IsCast = isset($aa['cast']);
-			$credit->IsCrew = isset($aa['crew']);
-			$s = @$aa['character']; if ($s !== null && $s !== '') $credit->Characters[] = new Character(self::HealCharacter($s),@$aa['episode_count']);
-			$s = @$aa['job']; if ($s !== null && $s !== '') $credit->Jobs[] = new Job($s,@$aa['episode_count']);
+			$s = @$aa['character']; if ($s !== null && $s !== '') $credit->Cast[] = new Cast(str_replace(['himself','herself'],['Himself','Herself'],$s),@$aa['episode_count']);
+			$s = @$aa['job']; if ($s !== null && $s !== '') $credit->Crew[] = new Crew($s,@$aa['episode_count']);
 		}
 	}
-	protected final function LoadPicturesFromTMDb($info) {
+	protected final function LoadPictures($info) {
 		$this->_Pictures = [];
 		$a = @$info['images']['profiles']; if (is_array($a)) foreach ($a as $aa){
 			$x = new Picture();
@@ -104,59 +126,17 @@ class Actor extends MMItem {
 		}
 	}
 
-	public function GetDataPath(){ return sprintf('../dat/actor/%03d/%03d/%03d.dat',$this->iid/1000000%1000,$this->iid/1000%1000,$this->iid%1000); }
-	public function SaveIntoFile(){
-		$this->Load();
-		$path = $this->GetDataPath();
-		Fs::Ensure(dirname($path));
-		if (($f = @fopen($path,'w')) === false) return;
-		fprintf($f,'%X',$this->_Timestamp);
-		$k = 'n'; $s = $this->_Name;             if ($s!==null) fprintf($f,"\n%s%s",$k,$s);
-		$k = 'i'; $s = $this->_imdb;             if ($s!==null) fprintf($f,"\n%s%s",$k,$s);
-		$k = 'j'; $s = $this->_Image;            if ($s!==null) fprintf($f,"\n%s%s",$k,$s);
-		$k = 'p'; $s = $this->_PlaceOfBirth;     if ($s!==null) fprintf($f,"\n%s%s",$k,$s);
-		$k = 'b'; $s = $this->_YearOfBirth;      if ($s!==null) fprintf($f,"\n%s%s",$k,$s);
-		$k = 'd'; $s = $this->_YearOfDeath;      if ($s!==null) fprintf($f,"\n%s%s",$k,$s);
-		$k = 't'; $s = $this->_Biography;        if ($s!==null) fprintf($f,"\n%s%s",$k,str_replace(["\\","\n"],["\\\\","\\n"],$s));
-		/** @var $x Credit  */ foreach ($this->_Credits  as $x) fprintf($f,"\n%s",$x->PackForActor());
-		/** @var $x Picture */ foreach ($this->_Pictures as $x) fprintf($f,"\n%s",$x->Pack());
-		fclose($f);
-	}
-	public function LoadFromFile(){
-		$path = $this->GetDataPath();
-		if (($f = @fopen($path,'r')) === false) return false;
-		$this->_Timestamp = intval(fgets($f),16);
-		$this->_Credits = [];
-		$this->_Pictures = [];
-		while (($line = fgets($f)) !== false) {
-			$line = rtrim($line);
-			if ($line === '') continue;
-			switch($line[0]) {
-				case 'n': $s = substr($line,1); $this->_Name         = $s === '' ? null : $s; break;
-				case 'i': $s = substr($line,1); $this->_imdb         = $s === '' ? null : $s; break;
-				case 'j': $s = substr($line,1); $this->_Image        = $s === '' ? null : $s; break;
-				case 'p': $s = substr($line,1); $this->_PlaceOfBirth = $s === '' ? null : $s; break;
-				case 'b': $s = substr($line,1); $this->_YearOfBirth  = $s === '' ? null : intval($s); break;
-				case 'd': $s = substr($line,1); $this->_YearOfDeath  = $s === '' ? null : intval($s); break;
-				case 't': $s = substr($line,1); $this->_Biography    = $s === '' ? null : str_replace(["\\n","\\\\"],["\n","\\",],$s); break;
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-					$x = Credit::UnpackForActor($this,$line);
-					if ($x !== null) $this->_Credits[] = $x;
-					break;
-				case 'P':
-					$x = Picture::Unpack($line);
-					if ($x !== null) $this->_Pictures[] = $x;
-					break;
-			}
-		}
-		fclose($f);
-		return true;
-	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
