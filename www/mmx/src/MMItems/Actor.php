@@ -67,16 +67,31 @@ class Actor extends MMItem {
 				preg_replace('/\s*Description above from the Wikipedia article .*, licensed under CC-BY-SA, full list of contributors on Wikipedia.\s*/',''
 				,$info['biography']));
 		}
-		Arr::UnsetPath($info,['combined_credits','cast',null,'original_title']);
-		Arr::UnsetPath($info,['combined_credits','cast',null,'poster_path']);
-		Arr::UnsetPath($info,['combined_credits','cast',null,'title']);
-		Arr::UnsetPath($info,['combined_credits','cast',null,'name']);
-		Arr::UnsetPath($info,['combined_credits','cast',null,'original_name']);
-		Arr::UnsetPath($info,['images',null,null,'aspect_ratio']);
-		Arr::UnsetPath($info,['images',null,null,'iso_639_1']);
-		Arr::UnsetPath($info,['images',null,null,'vote_average']);
-		Arr::UnsetPath($info,['images',null,null,'vote_count']);
-		Arr::UnsetPath($info,['images',null,null,'id']);
+
+		if (isset($info['combined_credits']['cast'])) { $info['cast'] = []; foreach ($info['combined_credits']['cast'] as $info2) {
+			$aa = [];
+			if (isset($info2['id'])) $aa[ $info2['media_type']==='tv' ? 'chain' : 'movie' ] = $info2['id'];
+			if (isset($info2['release_date'])) $aa['date'] = $info2['release_date'];
+			if (isset($info2['first_air_date'])) $aa['date'] = $info2['first_air_date'];
+			if (isset($info2['character'])) $aa['character'] = str_replace(['himself','herself'],['Himself','Herself'],$info2['character']);
+			if (isset($info2['episode_count'])) $aa['episodes'] = $info2['episode_count'];
+			$info['cast'][ $info2['credit_id'] ] = $aa;
+		}}
+		if (isset($info['combined_credits']['crew'])) { $info['crew'] = []; foreach ($info['combined_credits']['crew'] as $info2) {
+			$aa = [];
+			if (isset($info2['id'])) $aa[ $info2['media_type']==='tv' ? 'chain' : 'movie' ] = $info2['id'];
+			if (isset($info2['release_date'])) $aa['date'] = $info2['release_date'];
+			if (isset($info2['first_air_date'])) $aa['date'] = $info2['first_air_date'];
+			if (isset($info2['department'])) $aa['department'] = $info2['department'];
+			if (isset($info2['job'])) $aa['job'] = $info2['job'];
+			if (isset($info2['episode_count'])) $aa['episodes'] = $info2['episode_count'];
+			$info['crew'][ $info2['credit_id'] ] = $aa;
+		}}
+		unset($info['combined_credits']);
+		if (isset($info['profile_path'])) { $info['profile'] = $info['profile_path']; unset($info['profile_path']); }
+		if (isset($info['images']['profiles'])) { $info['profiles'] = []; foreach ($info['images']['profiles'] as $info2) if(isset($info2['file_path'])) $info['profiles'][$info2['file_path']] = [@$info2['width'],@$info2['height']]; }
+		unset($info['images']);
+		ksort($info);
 		return $info;
 	}
 	protected function LoadInfo($info){
@@ -85,7 +100,7 @@ class Actor extends MMItem {
 		$this->_imdb = @$info['imdb_id'];
 		$this->_Name = @$info['name'];
 		$this->_Biography = @$info['biography'];
-		$this->_Image = @$info['profile_path'];
+		$this->_Image = @$info['profile'];
 		$this->_YearOfBirth = strlen($d = @$info['birthday'])<4 ? null : intval(substr($d,0,4));
 		$this->_YearOfDeath = strlen($d = @$info['deathday'])<4 ? null : intval(substr($d,0,4));
 		$this->_PlaceOfBirth = @$info['place_of_birth'];
@@ -97,31 +112,41 @@ class Actor extends MMItem {
 		$this->_Credits = [];
 		$a = [];
 		$c = [];
-		$b = @$info['combined_credits']['cast']; if (is_array($b)) foreach ($b as $bb){ $bb['cast']=true; $a[] = $bb; $c[] = (@$bb['release_date'] ?: @$bb['first_air_date']) ?: ''; }
-		$b = @$info['combined_credits']['crew']; if (is_array($b)) foreach ($b as $bb){ $bb['crew']=true; $a[] = $bb; $c[] = (@$bb['release_date'] ?: @$bb['first_air_date']) ?: ''; }
+		$b = @$info['cast']; if (is_array($b)) foreach ($b as $bb){ $a[] = $bb; $c[] = @$bb['date'] ?: ''; }
+		$b = @$info['crew']; if (is_array($b)) foreach ($b as $bb){ $a[] = $bb; $c[] = @$bb['date'] ?: ''; }
 		array_multisort($c, SORT_DESC, $a);
 		foreach ($a as $aa){
-			$movie_type = @$aa['media_type']; if ($movie_type === null) continue;
-			$movie_iid = @$aa['id']; if ($movie_iid === null) continue;
-			$movie = Movie::FindGeneric($movie_iid,$movie_type);
+			$iid = @$aa['movie'];
+			if ($iid !== null) {
+				$movie = Movie::Find($iid);
+			}
+			else {
+				$iid = @$aa['chain'];
+				if ($iid !== null) {
+					$movie = Chain::Find($iid);
+				}
+				else {
+					continue;
+				}
+			}
 			/** @var $credit Credit */
 			$credit = null; foreach ($this->_Credits as $credit) { if ($credit->movie===$movie) break; else $credit = null; }
 			if ($credit === null) {
 				$credit = new Credit($movie,$this);
 				$this->_Credits[] = $credit;
 			}
-			$s = @$aa['character']; if ($s !== null && $s !== '') $credit->Cast[] = new Cast(str_replace(['himself','herself'],['Himself','Herself'],$s),@$aa['episode_count']);
-			$s = @$aa['job']; if ($s !== null && $s !== '') $credit->Crew[] = new Crew($s,@$aa['episode_count']);
+			$s = @$aa['character']; if ($s !== null && $s !== '') $credit->Cast[] = new Cast($s,@$aa['episodes']);
+			$s = @$aa['job']; if ($s !== null && $s !== '') $credit->Crew[] = new Crew($s,@$aa['episodes']);
 		}
 	}
 	protected final function LoadPictures($info) {
 		$this->_Pictures = [];
-		$a = @$info['images']['profiles']; if (is_array($a)) foreach ($a as $aa){
+		$a = @$info['profiles']; if (is_array($a)) foreach ($a as $k=>$aa){
 			$x = new Picture();
 			$x->Type = 'profile';
-			$x->Path = @$aa['file_path'];
-			$x->Width = @$aa['width'] ?: null;
-			$x->Height = @$aa['height'] ?: null;
+			$x->Path = $k;
+			$x->Width = @$aa[0] ?: null;
+			$x->Height = @$aa[1] ?: null;
 			$this->_Pictures[] = $x;
 		}
 	}

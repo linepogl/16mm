@@ -10,11 +10,20 @@ require('_.php');
 //$x->Load();
 
 //$x = TMDb::GetMovieInfo(100);
-$x = TMDb::GetActorInfo(100);
-//$x = TMDb::GetChainInfo(500);
+//$x = TMDb::GetMovieInfo(1200);
+//$x = TMDb::GetChainInfo(500)->Load();
 
 //$x = CouchDB::Save('movie',1,'{"test":"test"}');
 //$x = CouchDB::Load('movie',1);
+
+
+$x = Chain::Find(100)->Load();
+$x = Actor::Find(1)->Load();
+
+foreach ($x->Credits as $credit) {
+	dump($credit->movie->Load());
+}
+
 dump($x,null);
 
 

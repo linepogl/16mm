@@ -63,7 +63,7 @@ class CouchDB {
 		return self::GET($what);
 	}
 	public static function Save($what,$data=array()) {
-		return self::PUT($what,json_encode($data,JSON_FORCE_OBJECT));
+		return self::PUT($what,json_encode($data,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
 	}
 
 
