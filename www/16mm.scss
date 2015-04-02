@@ -98,10 +98,13 @@ body { background:$YY url(mmx/img/bg.png); }
 	.mmx-button-wrapper { box-sizing:border-box; margin-left:100%; }
 	.formButton { position:absolute; margin:5px 0 0 -45px; padding:7px 11px;  }
 	.formPane { padding:10px 60px 11px 10px; margin:0; box-shadow:0 0 20px rgba(0,0,0,0.1); }
-
 	.mmx-title { text-align:center; margin:30px 0 10px 0; font:700 120px/150px "Yanone",sans-serif; letter-spacing:-4px; color:#333333; text-shadow:1px 1px 0 #aaaaaa; .mm { font-size:50%; margin-left:4px; letter-spacing:0; }  }
 }
-
+#mmx-login {
+	position:fixed; top:60px; left:25%; right:25%; padding:50px; box-sizing:border-box; background:rgba(255,255,255,0.9); border-radius:15px; z-index:1000; box-shadow:0 0 30px rgba(0,0,0,0.1);
+	text-align:center;
+	.mmx-title { text-align:center; margin:30px 0 10px 0; font:700 120px/150px "Yanone",sans-serif; letter-spacing:-4px; color:#333333; text-shadow:1px 1px 0 #aaaaaa; .mm { font-size:50%; margin-left:4px; letter-spacing:0; }  }
+}
 
 
 .mmx-tile {
@@ -129,13 +132,14 @@ body { background:$YY url(mmx/img/bg.png); }
 		.col-0 { width:1px; vertical-align:bottom; display:inline-block; }
 		.col-1 { width:64%; vertical-align:bottom; display:inline-block; box-sizing:border-box; padding:5px 0 6px 3px; }
 		.col-2 { width:30%; vertical-align:bottom; display:inline-block; box-sizing:border-box; padding:5px 5px 6px 0; }
+		.col-3 { width:95%; vertical-align:bottom; display:inline-block; box-sizing:border-box; padding:5px 5px 6px 5px; }
 		.label { display: block; font: 300 12px/12px Yanone, sans-serif; color: rgba(255, 255, 255, 0.5); margin-top: 5px; }
 		.value { display: block; font: 400 14px/14px Yanone, sans-serif; color: rgba(255, 255, 255, 1.0); }
   }
 }
 
 #mmx-sidebar {
-  position:fixed; bottom:0; top:0; left:60px; display:none; z-index:1000;
+  position:fixed; bottom:0; top:0; left:60px; display:none;
 	.mmx-info { background:#a0d468; float:left; height:100%; .button-open { display:none; } }
 }
 #mmx-infobar1 {
@@ -185,8 +189,11 @@ body { background:$YY url(mmx/img/bg.png); }
 #mmx-main {
 	margin:0 250px 0 60px;
 	padding:0 30px;
+	z-index:0;
 }
 #mmx-foot {
 	clear:both;
 	padding-top:60px;
 }
+#mmx-fog { position:fixed; top:0; left:0; bottom:0; right:0; z-index:1; background: rgba(255,255,255,0.8); display: none; }
+#mmx-dialog { position:fixed; top:40px; left:40px; bottom:40px; right:40px; border-radius:20px; z-index:2; background:#ffffff; display:none; box-shadow:0 0 25px 10px rgba(0,0,0,0.1); }

@@ -2,23 +2,11 @@
 
 abstract class MMAction extends Action {
 //	public function GetDefaultMode(){ return Action::MODE_HTML_FRAGMENT; }
+//	public function IsPermitted(){ return User::IsLoggedIn(); }
 	public function IsPermitted(){ return true; }
 
 	public function Render(){
-
-
-//		$c = Chain::Search('test');
-//		$c = Movie::Search('test');
-//		dump(Movie::Find(100)->Load());
-//		dump($c,null);
-//		dump(TMDb::GetChainInfo(44652),null);
-//		die;
-		//dump(sprintf('%08X',13000000));
-		//$c = TMDb::GetMovieInfo(100);
-		//dump($c);
-
-
-
+		set_time_limit(0);
 		echo Js::BEGIN;
 		if ($this->mode === Action::MODE_NORMAL) {
 			echo "jQuery(document).ready(function(){";

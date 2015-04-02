@@ -22,8 +22,8 @@ jQuery.fn.findAndSelf = function(selector) { return this.find(selector).add(this
 
 
 <div id="mmx-toolbar">
-	<?php $act=new Action16mm();   $tab=$act->GetName(); ?><a id="mmx-tab-<?=$tab?>" href="<?=new Html($act)?>" class="mmx-tab" onclick="window.mmx.OpenTab(<?=new Js($tab)?>,<?=new Html(new Js($act))?>);return false;"><?= mmx::icoSearchGlass(); ?></a>
-	<?php $act=new ActionActors(); $tab=$act->GetName(); ?><a id="mmx-tab-<?=$tab?>" href="<?=new Html($act)?>" class="mmx-tab" onclick="window.mmx.OpenTab(<?=new Js($tab)?>,<?=new Html(new Js($act))?>);return false;"><?= mmx::icoActor();       ?></a>
+	<?php $act=new Action16mm();   if ($act->IsPermitted()) { $tab=$act->GetName(); ?><a id="mmx-tab-<?=$tab?>" href="<?=new Html($act)?>" class="mmx-tab" onclick="window.mmx.OpenTab(<?=new Js($tab)?>,<?=new Html(new Js($act))?>);return false;"><?= mmx::icoSearchGlass(); ?></a><?php } ?>
+	<?php $act=new ActionActors(); if ($act->IsPermitted()) { $tab=$act->GetName(); ?><a id="mmx-tab-<?=$tab?>" href="<?=new Html($act)?>" class="mmx-tab" onclick="window.mmx.OpenTab(<?=new Js($tab)?>,<?=new Html(new Js($act))?>);return false;"><?= mmx::icoActor();       ?></a><?php } ?>
 
 <!--
 	<div id="mmx-tab-actors" class="mmx-tab" onclick="window.mmx.ShowTab('actors')"><?= mmx::icoPeople(); ?></div>
@@ -45,6 +45,11 @@ jQuery.fn.findAndSelf = function(selector) { return this.find(selector).add(this
 	<div class="mmx-title">16<span class="mm">mm</span></div>
 	<div class="mmx-button-wrapper"><?= ButtonBox::Make('searchbutton')->WithIsRich(true)->WithValue(oxy::icoSearchGlass())->WithIsSubmit(true) ?></div>
 	<?= TextBox::Make('searchstring') ?>
+</form>
+
+<form id="mmx-login" style="display:none;" onsubmit="window.mmx.Login();return false;">
+	<div class="mmx-title">16<span class="mm">mm</span></div>
+	<?= ButtonBox::Make('loginbutton')->WithIsRich(true)->WithValue(oxy::icoLogin())->WithIsSubmit(true) ?>
 </form>
 
 <div id="mmx-sidebar"></div>
@@ -83,7 +88,8 @@ jQuery.fn.findAndSelf = function(selector) { return this.find(selector).add(this
         <div class="image"></div>
         <div class="details" >
             <div class="col-0" ></div>
-            <div class="col-1" >
+            <div class="col-3" >
+                <div class="place-of-birth"><span class="label">Place of birth</span><span class="value"></span></div>
                 <div class="year-of-birth"><span class="label">Year of birth</span><span class="value"></span></div>
                 <div class="year-of-death"><span class="label">Year of death</span><span class="value"></span></div>
                 <div class="countries"><span class="label">Nationality</span><span class="value"></span></div>
@@ -96,11 +102,12 @@ jQuery.fn.findAndSelf = function(selector) { return this.find(selector).add(this
     </a>
 
     <div id="mmx-movie-info-template" class="mmx-info mmx-movie-info">
-        <div class="image"></div>
+        <div class="image button-pict"></div>
         <div class="caption"></div>
         <div class="details" >
             <div class="original-title"><span class="label">Original title</span><span class="value"></span></div>
             <div class="genres"><span class="label">Genre</span><span class="value"></span></div>
+            <div class="keywords"><span class="label">Keywords</span><span class="value"></span></div>
             <div class="runtime"><span class="label">Runtime</span><span class="value"></span></div>
             <div class="countries"><span class="label">Country</span><span class="value"></span></div>
             <div class="languages"><span class="label">Language</span><span class="value"></span></div>
@@ -109,15 +116,17 @@ jQuery.fn.findAndSelf = function(selector) { return this.find(selector).add(this
         <div class="buttons">
             <a class="mmx-button button-open"><?= oxy::icoMoveRight() ?></a>
             <a class="mmx-button button-coop"><?= oxy::icoPlus() ?></a>
+            <a class="mmx-button button-imdb"><?= oxy::icoInfo() ?></a>
             <div class="fclear"></div>
         </div>
         <div class="overview text"></div>
     </div>
 
     <div id="mmx-actor-info-template" class="mmx-info mmx-actor-info">
-        <div class="image"></div>
+        <div class="image button-pict"></div>
         <div class="caption"></div>
         <div class="details" >
+            <div class="place-of-birth"><span class="label">Place of birth</span><span class="value"></span></div>
             <div class="year-of-birth"><span class="label">Year of birth</span><span class="value"></span></div>
             <div class="year-of-death"><span class="label">Year of death</span><span class="value"></span></div>
             <div class="countries"><span class="label">Nationality</span><span class="value"></span></div>
@@ -125,6 +134,7 @@ jQuery.fn.findAndSelf = function(selector) { return this.find(selector).add(this
         <div class="buttons">
             <a class="mmx-button button-open"><?= oxy::icoMoveRight() ?></a>
             <a class="mmx-button button-coop"><?= oxy::icoPlus() ?></a>
+            <a class="mmx-button button-imdb"><?= oxy::icoInfo() ?></a>
             <div class="fclear"></div>
         </div>
         <div class="biography text"></div>
@@ -133,6 +143,9 @@ jQuery.fn.findAndSelf = function(selector) { return this.find(selector).add(this
 
 <div id="mmx-main"><?= Oxygen::GetContent() ?></div>
 <div id="mmx-foot"></div>
+
+<div id="mmx-fog" onclick="window.mmx.HideDialog();"></div>
+<div id="mmx-dialog"></div>
 
 
 
@@ -152,8 +165,10 @@ jQuery.fn.findAndSelf = function(selector) { return this.find(selector).add(this
 <script type="text/javascript">
 /*<![CDATA[*/
 window.mmx = {
+    base : <?= new Js(TMDb::GetConfiguration()['images']['base_url']) ?>
 
-    SelectTab:function(tab){
+
+    ,SelectTab:function(tab){
         jQuery('.mmx-tab').removeClass('active');
         jQuery('#mmx-tab-'+tab).addClass('active');
     }
@@ -174,6 +189,15 @@ window.mmx = {
         this.OpenTab(null,url);
     }
 
+    ,ShowLogin:function(animate) {
+        var x = jQuery('#mmx-login');
+        var y = jQuery('#username');
+        if (!x.is(':visible')) {
+            if (animate===true) x.fadeIn(200); else x.show();
+            y.val('');
+        }
+        y.focus();
+    }
 
     ,FillActorTemplate:function(template,actor,extra,common){
         var xid = actor.iid;
@@ -184,6 +208,7 @@ window.mmx = {
         r.find('.caption').html(html(actor.Caption));
         r.find('.extra').html(html(extra));
         s = html(join(actor.Countries)); r.find('.countries').toggle(s!=='').find('.value').html(s);
+        s = html(actor.PlaceOfBirth);   r.find('.place-of-birth').toggle(s!=='').find('.value').html(s);
         s = html(actor.YearOfBirth);    r.find('.year-of-birth').toggle(s!=='').find('.value').html(s);
         s = html(actor.YearOfDeath);    r.find('.year-of-death').toggle(s!=='').find('.value').html(s);
         s = html(actor.Biography);      r.find('.biography').toggle(s!=='').html(s);
@@ -191,6 +216,8 @@ window.mmx = {
         r.findAndSelf('.button-load').attr('href',this.GetActorCreditsUrl(actor)).click(function(e){window.mmx.SelectActor(actor,e.delegateTarget,common);return false;}).dblclick(function(){window.mmx.OpenActorCredits(actor);return false;});
         r.find('.button-open').attr('href',this.GetActorCreditsUrl(actor)).click(function(){window.mmx.OpenActorCredits(actor);return false;});
         r.find('.button-coop').attr('href',this.GetActorCooperationsUrl(actor)).click(function(){window.mmx.OpenActorCooperations(actor);return false;});
+        if (actor.imdb) r.find('.button-imdb').attr('target','_blank').attr('href','http://www.imdb.com/name/'+actor.imdb);
+        r.find('.button-pict').click(function(){window.mmx.ShowPictures(actor.Pictures);return false;});
         return r;
     }
     ,FillMovieTemplate:function(template,movie,extra,common){
@@ -204,6 +231,7 @@ window.mmx = {
         s = html(join(movie.Languages)); r.find('.languages').toggle(s!=='').find('.value').html(s);
         s = html(join(movie.Countries)); r.find('.countries').toggle(s!=='').find('.value').html(s);
         s = html(join(movie.Genres));    r.find('.genres').toggle(s!=='').find('.value').html(s);
+        s = html(join(movie.Keywords));  r.find('.keywords').toggle(s!=='').find('.value').html(s);
         s = html(movie.Runtime);         r.find('.runtime').toggle(s!=='').find('.value').html(s);
         s = html(movie.OriginalTitle);   r.find('.original-title').toggle(s!=='').find('.value').html(s);
         s = html(movie.Overview);        r.find('.overview').toggle(s!=='').html(s);
@@ -212,6 +240,8 @@ window.mmx = {
         r.findAndSelf('.button-load').attr('href',this.GetMovieCreditsUrl(movie)).click(function(e){window.mmx.SelectMovie(movie,e.delegateTarget,common);return false;}).dblclick(function(){window.mmx.OpenMovieCredits(movie);return false;});
         r.find('.button-open').attr('href',this.GetMovieCreditsUrl(movie)).click(function(){window.mmx.OpenMovieCredits(movie);return false;});
         r.find('.button-coop').attr('href',this.GetMovieCooperationsUrl(movie)).click(function(){window.mmx.OpenMovieCooperations(movie);return false;});
+        if (movie.imdb) r.find('.button-imdb').attr('target','_blank').attr('href','http://www.imdb.com/title/'+movie.imdb);
+        r.find('.button-pict').click(function(){window.mmx.ShowPictures(movie.Pictures);return false;});
         return r;
     }
     ,separator:null
@@ -260,6 +290,35 @@ window.mmx = {
     ,ClearMain:function(){
         jQuery('#mmx-main').html('');
         jQuery('body').scrollTop(0);
+    }
+
+    ,HideDialog:function() {
+        jQuery('#mmx-dialog').hide();
+        jQuery('#mmx-fog').fadeOut(200);
+    }
+    ,ShowDialog:function() {
+        jQuery('#mmx-dialog').fadeIn(200);
+        jQuery('#mmx-fog').fadeIn(400);
+    }
+    ,ShowPictures:function(pictures){
+        if (pictures.length===0) return;
+        this.ShowDialog();
+
+        var s = '';
+        for (i = 0; i < pictures.length; i++)
+            s += '<img src="'+this.base+'original/'+pictures[i]+'" />';
+
+        current = 0;
+        jQuery('#mmx-dialog')
+          .css('background','transparent url('+window.mmx.base+'original/'+pictures[current%pictures.length]+') 50% 50% no-repeat')
+        .css('background-size','contain');
+
+        jQuery('#mmx-dialog').click(function(){
+            current++;
+            jQuery('#mmx-dialog')
+              .css('background','#ffffff url('+window.mmx.base+'original/'+pictures[current%pictures.length]+') 50% 50% no-repeat')
+            .css('background-size','contain');
+        })
     }
 
     ,open_request : 0

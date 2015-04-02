@@ -9,6 +9,7 @@
  * @property-read int     YearOfDeath
  * @property-read string  Biography
  * @property-read array   Credits
+ * @property-read array   Pictures
  */
 class Actor extends MMItem {
 
@@ -45,6 +46,7 @@ class Actor extends MMItem {
 		$r['YearOfBirth'] = $this->_YearOfBirth;
 		$r['YearOfDeath'] = $this->_YearOfDeath;
 		$r['Biography'] = $this->_Biography;
+		$r['Pictures'] = array_map(function(Picture $x){ return $x->Path; },$this->_Pictures);
 		return $r;
 	}
 
@@ -61,7 +63,8 @@ class Actor extends MMItem {
 		unset($info['also_known_as']);
 		unset($info['homepage']);
 		unset($info['popularity']);
-	   if (isset($info['biography'])) {
+		if (@$info['deathday'] === '') unset($info['deathday']);
+		if (isset($info['biography'])) {
 			$info['biography'] =
 				preg_replace('/\s*From Wikipedia, the free encyclopedia.\s*/','',
 				preg_replace('/\s*Description above from the Wikipedia article .*, licensed under CC-BY-SA, full list of contributors on Wikipedia.\s*/',''
@@ -74,7 +77,7 @@ class Actor extends MMItem {
 			if (isset($info2['release_date'])) $aa['date'] = $info2['release_date'];
 			if (isset($info2['first_air_date'])) $aa['date'] = $info2['first_air_date'];
 			if (isset($info2['character'])) $aa['character'] = str_replace(['himself','herself'],['Himself','Herself'],$info2['character']);
-			if (isset($info2['episode_count'])) $aa['episodes'] = $info2['episode_count'];
+			if (isset($info2['episode_count']) && intval($info2['episode_count']) > 0) $aa['episodes'] = intval($info2['episode_count']);
 			$info['cast'][ $info2['credit_id'] ] = $aa;
 		}}
 		if (isset($info['combined_credits']['crew'])) { $info['crew'] = []; foreach ($info['combined_credits']['crew'] as $info2) {
@@ -84,7 +87,7 @@ class Actor extends MMItem {
 			if (isset($info2['first_air_date'])) $aa['date'] = $info2['first_air_date'];
 			if (isset($info2['department'])) $aa['department'] = $info2['department'];
 			if (isset($info2['job'])) $aa['job'] = $info2['job'];
-			if (isset($info2['episode_count'])) $aa['episodes'] = $info2['episode_count'];
+			if (isset($info2['episode_count']) && intval($info2['episode_count']) > 0) $aa['episodes'] = intval($info2['episode_count']);
 			$info['crew'][ $info2['credit_id'] ] = $aa;
 		}}
 		unset($info['combined_credits']);
@@ -136,7 +139,7 @@ class Actor extends MMItem {
 				$this->_Credits[] = $credit;
 			}
 			$s = @$aa['character']; if ($s !== null && $s !== '') $credit->Cast[] = new Cast($s,@$aa['episodes']);
-			$s = @$aa['job']; if ($s !== null && $s !== '') $credit->Crew[] = new Crew($s,@$aa['episodes']);
+			$s = @$aa['job']; if ($s !== null && $s !== '') { $credit->Crew[] = new Crew($s,@$aa['episodes']);  if ($s==='Director') $credit->IsDirector = true; }
 		}
 	}
 	protected final function LoadPictures($info) {

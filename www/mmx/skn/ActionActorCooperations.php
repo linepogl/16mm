@@ -12,7 +12,6 @@ class ActionActorCooperations extends MMAction {
 		echo "window.mmx.OpenActorCooperations(".($this->actor->ToJson()).");";
 	}
 	public function RenderJavascript(){
-		set_time_limit(0);
 		echo "window.mmx.AddSeparator(".new Js($this->actor->GetCaption().': Cooperations').");";
 
 		$actors = [];

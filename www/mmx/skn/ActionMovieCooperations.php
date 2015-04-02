@@ -12,7 +12,6 @@ class ActionMovieCooperations extends MMAction {
 		echo "window.mmx.OpenMovieCooperations(".($this->movie->ToJson()).");";
 	}
 	public function RenderJavascript(){
-		set_time_limit(0);
 		echo "window.mmx.AddSeparator(".new Js($this->movie->GetCaption().': common people').");";
 
 		$movies = [];

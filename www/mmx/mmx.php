@@ -35,5 +35,6 @@ abstract class _mmx extends _mmx_dictionary {
 	public static function FormatCountry($code) { return ucwords(strtolower(oxy::txtCountry_($code))); }
 	public static function FormatLanguage($code) { return ucwords(strtolower(oxy::txtLang_($code))); }
 
+	public static function GetLoginControl(){ return MMLoginControl::Make(); }
 }
 Oxygen::RegisterResourceManager('mmx','_mmx');

@@ -43,19 +43,22 @@ class Chain extends Movie {
 		unset($info['production_companies']);
 		unset($info['vote_average']);
 		unset($info['vote_count']);
-		if (isset($info['first_air_date'])) { $info['date'] = $info['first_air_date']; unset($info['first_air_date']); }
-		if (isset($info['last_air_date'])) { $info['date_till'] = $info['last_air_date']; unset($info['last_air_date']); }
+		unset($info['vote_count']);
+		if (isset($info['first_air_date'])) $info['date'] = $info['first_air_date']; unset($info['first_air_date']);
+		if (isset($info['last_air_date'])) $info['date_till'] = $info['last_air_date']; unset($info['last_air_date']);
 		if (isset($info['origin_country'])) { $info['countries'] = $info['origin_country']; unset($info['origin_country']); }
 		if (isset($info['genres'])) {
 			$a = []; foreach ($info['genres'] as $aa) if (isset($aa['id'])&&isset($aa['name'])) $a[$aa['id']] = $aa['name'];
 			$info['genres'] = $a;
 		}
+		if (isset($info['name'])) { $info['title']=$info['name']; unset($info['name']); }
+		if (isset($info['original_name'])) { $info['original_title']=$info['original_name']; unset($info['original_name']); }
 		if (isset($info['original_title'])&&isset($info['title'])&&$info['original_title']===$info['title']) unset($info['original_title']);
 		if (isset($info['credits']['cast'])) { $info['cast'] = []; foreach ($info['credits']['cast'] as $info2) {
 			$aa = [];
 			if (isset($info2['id'])) $aa['actor'] = $info2['id'];
 			if (isset($info2['character'])) $aa['character'] = str_replace(['himself','herself'],['Himself','Herself'],$info2['character']);
-			if (isset($info2['episode_count'])) $aa['episodes'] = $info2['episode_count'];
+			if (isset($info2['episode_count']) && intval($info2['episode_count']) > 0) $aa['episodes'] = intval($info2['episode_count']);
 			$info['cast'][ $info2['credit_id'] ] = $aa;
 		}}
 		if (isset($info['credits']['crew'])) { $info['crew'] = []; foreach ($info['credits']['crew'] as $info2) {
@@ -63,12 +66,12 @@ class Chain extends Movie {
 			if (isset($info2['id'])) $aa['actor'] = $info2['id'];
 			if (isset($info2['department'])) $aa['department'] = $info2['department'];
 			if (isset($info2['job'])) $aa['job'] = $info2['job'];
-			if (isset($info2['episode_count'])) $aa['episodes'] = $info2['episode_count'];
+			if (isset($info2['episode_count']) && intval($info2['episode_count']) > 0) $aa['episodes'] = intval($info2['episode_count']);
 			$info['crew'][ $info2['credit_id'] ] = $aa;
 		}}
 		unset($info['credits']);
-		if (isset($info['keywords']['keywords'])) {
-			$a = []; foreach ($info['keywords']['keywords'] as $aa) if (isset($aa['id'])&&isset($aa['name'])) $a[$aa['id']] = $aa['name'];
+		if (isset($info['keywords']['results'])) {
+			$a = []; foreach ($info['keywords']['results'] as $aa) if (isset($aa['id'])&&isset($aa['name'])) $a[$aa['id']] = $aa['name'];
 			$info['keywords'] = $a;
 		}
 		if (isset($info['backdrop_path'])) { $info['backdrop'] = $info['backdrop_path']; unset($info['backdrop_path']); }
@@ -83,8 +86,7 @@ class Chain extends Movie {
 		if (!parent::LoadInfo($info)) return false;
 		$this->_Seasons = @$info['number_of_seasons'] ?: null;
 		$this->_Episodes = @$info['number_of_episodes'] ?: null;
-		$this->_Year = strlen($d = @$info['first_air_date'])<4 ? null : intval(substr($d,0,4));
-		$this->_YearTill = strlen($d = @$info['last_air_date'])<4 ? null : intval(substr($d,0,4)); if ($this->_YearTill===$this->_Year) $this->_YearTill = null;
+		$this->_YearTill = strlen($d = @$info['date_till'])<4 ? null : intval(substr($d,0,4)); if ($this->_YearTill===$this->_Year) $this->_YearTill = null;
 		return true;
 	}
 

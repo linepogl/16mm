@@ -11,12 +11,6 @@ class ActionMovieCredits extends MMAction {
 	public function RenderJavascriptInitialState() {
 		echo "window.mmx.OpenMovieCredits(".($this->movie->ToJson()).");";
 	}
-//	public function Render() {
-//		/** @var $credit Credit */
-//		foreach ($this->movie->Credits as $credit) {
-//			dump($credit->actor->Load());
-//		}
-//	}
 	public function RenderJavascript() {
 		echo "window.mmx.AddSeparator(".new Js($this->movie->GetCaption().': Credits').");";
 		/** @var $credit Credit */

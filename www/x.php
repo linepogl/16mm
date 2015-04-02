@@ -5,7 +5,8 @@ require('_.php');
 //dump(TMDb::GetChainInfo(2288));
 //die;
 //$x = Actor::Find(1);
-//$x = Movie::Find(100);
+//$x = Actor::Find(1)->Load();
+//$x = Movie::Find(100)->Load();
 //$x = Chain::Find(500);
 //$x->Load();
 
@@ -17,14 +18,21 @@ require('_.php');
 //$x = CouchDB::Load('movie',1);
 
 
-$x = Chain::Find(100)->Load();
-$x = Actor::Find(1)->Load();
+//$x = Chain::Find(100)->Load();
+//$x = Actor::Find(1)->Load();
 
-foreach ($x->Credits as $credit) {
-	dump($credit->movie->Load());
-}
+//foreach ($x->Credits as $credit) {
+//	dump($credit->movie->Load());
+//}
 
-dump($x,null);
+//dump($x,null);
+
+//$x = Movie::Find(2)->Load();
+//$x = Movie::Find(3)->Load();
+//$x = Movie::Find(4)->Load();
+//$x = Movie::Find(5)->Load();
+$x = Actor::Find(-5)->Load();
+
 
 
 

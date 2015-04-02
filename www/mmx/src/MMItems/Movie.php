@@ -49,7 +49,14 @@ class Movie extends MMItem {
 	public function GetImage(){ $this->Load(); return $this->_Backdrop === null ? null : TMDb::GetImageSrc($this->_Backdrop,TMDb::BACKDROP_W300); }
 	public function GetLanguagesTranslated() { $this->Load(); return implode(', ',array_map(function($x){ return mmx::FormatLanguage($x); }, $this->Languages)); }
 	public function GetCountriesTranslated() { $this->Load(); return implode(', ',array_map(function($x){ return mmx::FormatCountry($x); }, $this->Countries)); }
-
+	public function GetDirectors(){
+		$r = [];
+		/** @var $credit Credit */
+		foreach ($this->Credits as $credit)
+			if ($credit->IsDirector)
+				$r[] = $credit->actor;
+		return $r;
+	}
 
 	public function ToArray() {
 		$this->Load();
@@ -64,15 +71,12 @@ class Movie extends MMItem {
 		$r['Image'] = $this->GetImage();
 		$r['CountryCodes'] = $this->_Countries;
 		$r['Countries'] = array_map(function($x){return mmx::FormatCountry($x);},$this->_Countries);
-		$r['LanguageCodes'] = $this->Languages;
 		$r['Languages'] = array_map(function($x){return mmx::FormatLanguage($x);},$this->_Languages);
-		$r['GenreCodes'] = array_keys($this->_Genres);
 		$r['Genres'] = array_values($this->_Genres);
-		$r['KeywordCodes'] = array_keys($this->_Keywords);
 		$r['Keywords'] = array_values($this->_Keywords);
 		$r['Runtime'] = mmx::FormatTimeSpan($this->_Runtime);
-		$r['RuntimeInMinutes'] = $this->_Runtime === null ? null : $this->_Runtime->GetTotalMinutes();
 		$r['Year'] = $this->_Year;
+		$r['Pictures'] = array_map(function(Picture $x){ return $x->Path; },$this->_Pictures);
 		return $r;
 	}
 
@@ -94,6 +98,7 @@ class Movie extends MMItem {
 		unset($info['video']);
 		unset($info['vote_average']);
 		unset($info['vote_count']);
+		if (empty($info['belongs_to_collection'])) unset($info['belongs_to_collection']);
 		if (isset($info['release_date'])) { $info['date'] = $info['release_date']; unset($info['release_date']); }
 		if (isset($info['spoken_languages'])) {
 			$a = []; foreach ($info['spoken_languages'] as $aa) if (isset($aa['iso_639_1'])) $a[] = $aa['iso_639_1'];
@@ -170,7 +175,7 @@ class Movie extends MMItem {
 				$this->_Credits[] = $credit;
 			}
 			$s = @$aa['character']; if ($s !== null && $s !== '') $credit->Cast[] = new Cast(str_replace(['himself','herself'],['Himself','Herself'],$s),@$aa['episodes']);
-			$s = @$aa['job']; if ($s !== null && $s !== '') $credit->Crew[] = new Crew($s,@$aa['episodes']);
+			$s = @$aa['job']; if ($s !== null && $s !== '') { $credit->Crew[] = new Crew($s,@$aa['episodes']);  if ($s==='Director') $credit->IsDirector = true; }
 		}
 	}
 	protected final function LoadPictures($info) {

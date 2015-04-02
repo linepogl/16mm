@@ -16,9 +16,23 @@ class CouchDB {
 
 
 
-	private static function call($request) {
+	private static $calls = [];
+	private static function call($method,$what,$data = null) {
+		$req = "$method $what HTTP/1.0\r\n";
+		$req .= "Host: ".self::$host."\r\n";
+		$req .= "Accept: application/json,text/html,text/plain,*/*\r\n";
+		if ($data !== null) {
+			$req .= "Content-Type: application/json\r\n";
+			$req .= "Content-Length: ".strlen($data)."\r\n";
+			$req .= "\r\n";
+			$req .= $data;
+		}
+		$req .= "\r\n";
+
+		self::$calls[] = $req;
+
 		$socket = fsockopen(self::$host,self::$port,$err_code,$err_string);
-		fwrite($socket, $request);
+		fwrite($socket, $req);
 
 		$r = new self();
 
@@ -39,31 +53,16 @@ class CouchDB {
 
 		return $r;
 	}
-	private static function GET($what) {
-		$req = "GET $what HTTP/1.0\r\n";
-		$req .= "Host: ".self::$host."\r\n";
-		$req .= "Accept: application/json,text/html,text/plain,*/*\r\n";
-		$req .= "\r\n";
-		return self::call($req);
-	}
-	private static function PUT($what,$data) {
-		$req = "PUT $what HTTP/1.0\r\n";
-		$req .= "Host: ".self::$host."\r\n";
-		$req .= "Accept: application/json,text/html,text/plain,*/*\r\n";
-		$req .= "Content-Type: application/json\r\n";
-		$req .= "Content-Length: ".strlen($data)."\r\n";
-		$req .= "\r\n";
-		$req .= $data;
-		$req .= "\r\n";
-		return self::call($req);
-	}
 
 
 	public static function Load($what) {
-		return self::GET($what);
+		return self::call('GET',$what);
+	}
+	public static function LoadMany($what,$ids) {
+		return self::call('POST',$what.'?include_docs=true','{"keys":'.json_encode($ids).'}');
 	}
 	public static function Save($what,$data=array()) {
-		return self::PUT($what,json_encode($data,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+		return self::call('PUT',$what,$data === null ? null : json_encode($data,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
 	}
 
 

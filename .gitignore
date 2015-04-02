@@ -3,4 +3,5 @@
 /.idea/watcherTasks.xml
 /log
 /tmp
+/dat
 /node_modules

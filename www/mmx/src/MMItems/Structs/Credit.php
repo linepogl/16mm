@@ -6,6 +6,7 @@ class Credit {
 	/** @var Movie */ public $movie;
 	public $Cast = [];
 	public $Crew = [];
+	public $IsDirector = false;
 
 	public function __construct(Movie $movie, Actor $actor){ $this->actor = $actor; $this->movie = $movie; }
 	public function GetExtra(){ return implode(', ',array_map(function(/** @var $x Cast|Crew */$x){return $x->GetCaption();},array_merge($this->Cast,$this->Crew))); }
