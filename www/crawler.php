@@ -14,9 +14,15 @@ $iid = intval(@file_get_contents("$tmp_folder/crawler"))+1;
 if ($iid >= $iid_end) $iid = 1;
 
 for ( ; $iid < $iid_end; $iid++) {
-	if ($iid < $iid_end_actor) Actor::Find($iid)->Load();
-	if ($iid < $iid_end_movie) Movie::Find($iid)->Load();
-	if ($iid < $iid_end_chain) Chain::Find($iid)->Load();
+	//if ($iid < $iid_end_actor) Actor::Find($iid)->Load();
+	//if ($iid < $iid_end_movie) Movie::Find($iid)->Load();
+	//if ($iid < $iid_end_chain) Chain::Find($iid)->Load();
+
+	if ($iid < $iid_end_actor) Actor::ImportFromTMDb($iid);
+	if ($iid < $iid_end_movie) Movie::ImportFromTMDb($iid);
+	if ($iid < $iid_end_chain) Movie::ImportFromTMDb(-$iid);
+
+
 	file_put_contents("$tmp_folder/crawler",$iid);
 	if (TMDb::CountCalls() >= 15) break;
 }

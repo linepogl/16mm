@@ -9,12 +9,11 @@ class TMDb {
 	private static $api_key = '5575cbca2608451f50c914555304c4d8';
 
 	private static $calls = [];
-	private static $checked_nulls = [];
 	private static function Call($service,$cache_key = null){
 		$use_cache = $cache_key !== null;
 		$key = "TMDb:$cache_key:$service";
 		$r = $use_cache ? Scope::$APPLICATION[$key] : null;
-		if ($r === null && !array_key_exists($key,self::$checked_nulls)) {
+		if ($r === null) {
 			$url = self::$api_base . $service . (strrpos($service,'?')===false?'?':'&') . 'api_key='. self::$api_key.'&lang=en&include_adult=true';
 			self::$calls[] = $url;
 			$ch = curl_init();
@@ -25,7 +24,8 @@ class TMDb {
 			$r = curl_exec($ch);
 			curl_close($ch);
 			$r = json_decode($r,true);
-			if ($r === null || isset($r['status_code'])) { self::$checked_nulls[$key] = true; return null; }
+			if (isset($r['status_code']) && $r['status_code']===6) $r = ['empty'=>true];
+			if ($r === null) return null;
 			$r['timestamp'] = XDateTime::Now()->AsInt();
 			if ($use_cache) Scope::$APPLICATION[$key] = $r;
 		}

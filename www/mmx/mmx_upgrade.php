@@ -8,8 +8,27 @@ if (Database::BeginPatchingSystem()) {
 	Database::ExecuteInsert('mmx','id',new ID(0),'VersionLi',0);
 }
 
-if (Database::BeginPatch('li',1,'Users')) {
-	Database::ExecuteCreateStandardTable('mmx_user', 'Username', Sql::String100);
-	Database::ExecuteAddUniqueIndex('mmx_user','Username');
+if (Database::BeginPatch('li',1,'TMDb')) {
+
+	Database::ExecuteCreateTable('mmx_actor'
+		,'iid',Sql::Integer
+		,'Info',Sql::Text
+		,'Time',Sql::DateTime
+	);
+	Database::ExecuteCreateTable('mmx_movie'
+		,'iid',Sql::Integer
+		,'Info',Sql::Text
+		,'Time',Sql::DateTime
+	);
+	Database::ExecuteCreateTable('mmx_credit'
+		,'iidActor',Sql::Integer
+		,'iidMovie',Sql::Integer
+		,'Info',Sql::Text
+		,'Rank',Sql::Integer
+		,'Date',Sql::DateTime
+		,'Time',Sql::DateTime
+	);
+
 	Database::ApplyPatch();
 }
+
