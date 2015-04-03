@@ -63,17 +63,32 @@ class TMDb {
 	public static function GetActorCredits($iid,$p=WEEKLY){ return self::Call( "person/$iid/combined_credits" , $p ); }
 	public static function GetActorImages($iid,$p=WEEKLY){ return self::Call( "person/$iid/images" , $p ); }
 	public static function GetActorLatest($p=DAILY){ return self::Call( "person/latest" , $p ); }
+	public static function GetActorChanges($page=1){
+		$d1 = XDate::Today()->AddDays(-1)->Format('Y-m-d');
+		$d2 = XDate::Today()->Format('Y-m-d');
+		return self::Call( "person/changes?page=$page&start_date=$d1&end_date=$d2" , MONTHLY );
+	}
 
 	public static function GetMovieInfo($iid,$p=DAILY){ return self::Call("movie/$iid?append_to_response=credits,keywords,images",$p); }
 	public static function GetMovieCredits($iid,$p=WEEKLY){ return self::Call( "movie/$iid/credits" , $p ); }
 	public static function GetMovieImages($iid,$p=WEEKLY){ return self::Call( "movie/$iid/images" , $p ); }
 	public static function GetMovieSimilarMovies($iid,$page = 1,$p=WEEKLY){ return self::Call( "movie/$iid/similar_movies?page=$page" , $p ); }
 	public static function GetMovieLatest($p=DAILY){ return self::Call( "movie/latest" , $p ); }
+	public static function GetMovieChanges($page=1){
+		$d1 = XDate::Today()->AddDays(-1)->Format('Y-m-d');
+		$d2 = XDate::Today()->Format('Y-m-d');
+		return self::Call( "movie/changes?page=$page&start_date=$d1&end_date=$d2" , MONTHLY );
+	}
 
 	public static function GetChainInfo($iid,$p=DAILY){ return self::Call( "tv/$iid?append_to_response=credits,keywords,images" , $p ); }
 	public static function GetChainCredits($iid,$p=WEEKLY){ return self::Call( "tv/$iid/credits" , $p ); }
 	public static function GetChainImages($iid,$p=WEEKLY){ return self::Call( "tv/$iid/images" , $p ); }
 	public static function GetChainLatest($p=DAILY){ return self::Call( "tv/latest" , $p ); }
+	public static function GetChainChanges($page=1){
+		$d1 = XDate::Today()->AddDays(-1)->Format('Y-m-d');
+		$d2 = XDate::Today()->Format('Y-m-d');
+		return self::Call( "tv/changes?page=$page&start_date=$d1&end_date=$d2" , MONTHLY );
+	}
 
 	public static function Search($searchstring,$page = 1,$p=DAILY){ return self::Call( "search/multi?query=".new Url($searchstring).'&page='.$page , $p); }
 	public static function SearchMovie($searchstring,$page = 1,$p=DAILY){ return self::Call( "search/movie?query=".new Url($searchstring).'&page='.$page , $p); }

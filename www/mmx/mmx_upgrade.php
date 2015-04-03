@@ -15,11 +15,13 @@ if (Database::BeginPatch('li',1,'TMDb')) {
 		,'Info',Sql::Text
 		,'Time',Sql::DateTime
 	);
+	Database::ExecuteAddPrimaryKey('mmx_actor','iid');
 	Database::ExecuteCreateTable('mmx_movie'
 		,'iid',Sql::Integer
 		,'Info',Sql::Text
 		,'Time',Sql::DateTime
 	);
+	Database::ExecuteAddPrimaryKey('mmx_movie','iid');
 	Database::ExecuteCreateTable('mmx_credit'
 		,'iidActor',Sql::Integer
 		,'iidMovie',Sql::Integer
@@ -28,6 +30,7 @@ if (Database::BeginPatch('li',1,'TMDb')) {
 		,'Date',Sql::DateTime
 		,'Time',Sql::DateTime
 	);
+	Database::ExecuteAddPrimaryKey('mmx_credit','iidActor','iidMovie');
 
 	Database::ApplyPatch();
 }

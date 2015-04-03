@@ -4,15 +4,21 @@ class Credit {
 
 	public $_actor;
 	public $_movie;
-	public $_info;
 	public $_time;
+	public $Roles;
 
 	public function __construct(Actor $actor, Movie $movie, $info, $time ) {
 		$this->_actor = $actor;
 		$this->_movie = $movie;
-		$this->_info = $info;
-		$this->_time = $time;
+		$this->set_info($time,$info);
 	}
+	private function set_info($time,$info){
+		$this->_time = $time;
+		$this->Roles = array_map( function($x){ return self::DecodeJob($x); } , $info );
+	}
+	public function GetCaption(){ return implode(', ',$this->Roles); }
+
+
 
 	public static function EncodeJob($txt) {
 		if (self::$inverse_jobs===null) self::$inverse_jobs = array_combine(array_values(self::$jobs),array_keys(self::$jobs));

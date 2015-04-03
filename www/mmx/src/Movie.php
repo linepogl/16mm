@@ -1,7 +1,33 @@
 <?php
 
+class _MovieInfo{
+	public $time;
+	public $Found = false;
+	public $imdb;
+	public $Title;
+	public $Year;
+	public $YearTill;
+	public $OriginalTitle;
+	public $Runtime;
+	public $Backdrop;
+	public $Poster;
+	public $Seasons;
+	public $Episodes;
+	public $Status;
+	public $Overview;
+	public $Countries;
+	public $Languages;
+	public $Keywords;
+	public $Genres;
+	public $Credits = [];
+	public function __construct($time){ $this->time=$time; }
+}
+
+
 /**
  *
+ * @property-read boolean    Found
+ * @property-read XDateTIme  time
  * @property-read string     imdb
  * @property-read string     Title
  * @property-read int        Year
@@ -24,52 +50,59 @@
 class Movie {
 
 	public $iid;
-	public $time;
-	private $_imdb;
-	private $_Title;
-	private $_Year;
-	private $_YearTill;
-	private $_OriginalTitle;
-	private $_Runtime;
-	private $_Backdrop;
-	private $_Poster;
-	private $_Seasons;
-	private $_Episodes;
-	private $_Status;
-	private $_Overview;
-	private $_Countries;
-	private $_Languages;
-	private $_Keywords;
-	private $_Genres;
-	private $_Credits;
-
+	/** @var _MovieInfo */ private $_info;
 	private function __construct($iid){ $this->iid = $iid; }
 
 	public function __get($key) {
-		if ($this->time === null) throw new Exception('Movie has not been loaded.');
-		return $this->{'_'.$key};
+		if ($this->_info === null) throw new Exception('Movie has not been loaded.');
+		return $this->_info->$key;
 	}
-	private function set_info($info) {
-		$this->_Title = @$info[0] ?: null;
-		$this->_imdb = @$info[1] ?: null;
-		$this->_Year = strlen($d=@$info[2])<4 ? null : intval(substr($d,0,4));
-		$this->_YearTill = strlen($d=@$info[3])<4 ? null : intval(substr($d,0,4));
-		$this->_OriginalTitle = @$info[4] ?: null;
-		//$this->_collection = @$info[5] ?: null;
-		$this->_Backdrop = @$info[6] ?: null;
-		$this->_Poster = @$info[7] ?: null;
-		$this->_Runtime = ($m=@$info[8]) ? XTimeSpan::Make(0,0,$m) : null;
-		$this->_Overview = @$info[9] ?: null;
-		$this->_Status = @$info[10] ?: null;
-		$this->_Seasons = @$info[11] ?: null;
-		$this->_Episodes = @$info[12] ?: null;
-		$this->_Languages = @$info[13] ?: [];
-		$this->_Countries = @$info[14] ?: [];
-		$this->_Keywords = @$info[15] ?: [];
-		$this->_Genres = @$info[16] ?: [];
+	private function set_info($time,$info) {
+		$this->_info = new _MovieInfo($time);
+		$this->_info->Found = !empty($info);
+		$this->Title = @$info[0] ?: null;
+		$this->imdb = @$info[1] ?: null;
+		$this->Year = strlen($d=@$info[2])<4 ? null : intval(substr($d,0,4));
+		$this->YearTill = strlen($d=@$info[3])<4 ? null : intval(substr($d,0,4));
+		$this->OriginalTitle = @$info[4] ?: null;
+		//$this->collection = @$info[5] ?: null;
+		$this->Backdrop = @$info[6] ?: null;
+		$this->Poster = @$info[7] ?: null;
+		$this->Runtime = ($m=@$info[8]) ? XTimeSpan::Make(0,0,$m) : null;
+		$this->Overview = @$info[9] ?: null;
+		$this->Status = @$info[10] ?: null;
+		$this->Seasons = @$info[11] ?: null;
+		$this->Episodes = @$info[12] ?: null;
+		$this->Languages = @$info[13] ?: [];
+		$this->Countries = @$info[14] ?: [];
+		$this->Genres = @$info[15] ?: [];
+		$this->Keywords = @$info[16] ?: [];
 	}
 
-
+	public function GetCaption() { return $this->Title . ($this->Year === null ? '' : ' ('.$this->Year.($this->YearTill === null ? '' : '-'.$this->YearTill).')'); }
+	public function GetImage(){ return $this->Backdrop === null ? null : TMDb::GetImageSrc($this->Backdrop,TMDb::BACKDROP_W300); }
+	public function ToJson() { return json_encode($this->ToArray(),JSON_UNESCAPED_UNICODE); }
+	public function ToArray() {
+		$r = [];
+		$r['iid'] = $this->iid;
+		$r['Type'] = $this->iid < 0 ? 'chain' : 'movie';
+		$r['imdb'] = $this->imdb;
+		$r['Caption'] = $this->GetCaption();
+		$r['Title'] = $this->Title;
+		$r['Overview'] = $this->Overview;
+		$r['OriginalTitle'] = $this->OriginalTitle;
+		$r['Image'] = $this->GetImage();
+		$r['Countries'] = array_map(function($x){return mmx::FormatCountry($x);},$this->Countries);
+		$r['Languages'] = array_map(function($x){return mmx::FormatLanguage($x);},$this->Languages);
+		$r['Genres'] = array_values($this->Genres);
+		$r['Keywords'] = array_values($this->Keywords);
+		$r['Runtime'] = mmx::FormatTimeSpan($this->Runtime);
+		$r['Year'] = $this->Year;
+		$r['YearTill'] = $this->YearTill;
+		$r['Seasons'] = $this->Seasons;
+		$r['Episodes'] = $this->Episodes;
+		return $r;
+	}
 
 
 
@@ -82,11 +115,11 @@ class Movie {
 
 	private static $cache = [];
 	/**
-	 * @param $iid_or_actor int|self
+	 * @param $iid_or_movie int|self
 	 * @return self
 	 */
-	public static function Pick($iid_or_actor) {
-		$iid = $iid_or_actor instanceof self ? $iid_or_actor->iid : $iid_or_actor;
+	public static function Pick($iid_or_movie) {
+		$iid = $iid_or_movie instanceof self ? $iid_or_movie->iid : $iid_or_movie;
 		if (!isset(self::$cache[$iid])) self::$cache[$iid] = new self($iid);
 		return self::$cache[$iid];
 	}
@@ -97,35 +130,30 @@ class Movie {
 	 */
 	public static function Mass($iids_or_movies = array()) {
 		$r = [];
-		$info_to_be_loaded = [];
-		$crdt_to_be_loaded = [];
+		$to_be_loaded = [];
 		foreach ($iids_or_movies as $iid) {
 			$x = self::Pick($iid);
 			$r[$x->iid] = $x;
-			if ($x->time === null) {
-				$info_to_be_loaded[$x->iid] = $x->iid;
-				$crdt_to_be_loaded[$x->iid] = $x->iid;
-				$x->_Credits = [];
-			}
+			if ($x->_info === null) $to_be_loaded[$x->iid] = $x->iid;
 		}
-		while (!empty($info_to_be_loaded)) {
-			$dr = Database::Execute('SELECT `iid`,`Info`,`Time` FROM `mmx_movie` WHERE `iid` IN '.new Sql($info_to_be_loaded));
-			while($dr->Read()) {
-				/** @var $x self */
-				$x = $r[$dr['iid']->AsInteger()];
-				$x->time = $dr['Time']->AsDateTime();
-				$x->set_info(json_decode($dr['Info']->AsString(),JSON_OBJECT_AS_ARRAY));
-				unset($info_to_be_loaded[$x->iid]);
+		if (!empty($to_be_loaded)) {
+			$a = $to_be_loaded; // copy
+			while (!empty($a)) {
+				$dr = Database::Execute('SELECT `iid`,`Info`,`Time` FROM `mmx_movie` WHERE `iid` IN '.new Sql($a));
+				while($dr->Read()) {
+					/** @var $x self */
+					$x = $r[$dr['iid']->AsInteger()];
+					$x->set_info($dr['Time']->AsDateTime(),json_decode($dr['Info']->AsString(),JSON_OBJECT_AS_ARRAY));
+					unset($a[$x->iid]);
+				}
+				$dr->Close();
+				foreach ($a as $iid) self::ImportFromTMDb($iid,$to_be_loaded,[]);
 			}
-			$dr->Close();
-			foreach ($info_to_be_loaded as $iid) self::ImportFromTMDb($iid,$info_to_be_loaded,[]);
-		}
-		if (!empty($crdt_to_be_loaded)) {
-			$dr = Database::Execute('SELECT `iidActor`,`iidMovie`,`Info`,`Time` FROM `mmx_credit` WHERE `iidMovie` IN '.new Sql($crdt_to_be_loaded));
+			$dr = Database::Execute('SELECT `iidActor`,`iidMovie`,`Info`,`Time` FROM `mmx_credit` WHERE `Rank` IS NOT NULL AND `Rank`>=0 AND `iidMovie` IN '.new Sql($to_be_loaded).' ORDER BY `Rank` ASC');
 			while($dr->Read()) {
 				/** @var $x self */
 				$x = $r[$dr['iidMovie']->AsInteger()];
-				$x->_Credits[] = new Credit( Actor::Pick($dr['iidActor']->AsInteger()) , $x , json_decode($dr['Info']->AsString(),JSON_OBJECT_AS_ARRAY) , $dr['Time']->AsDateTime() );
+				$x->_info->Credits[] = new Credit( Actor::Pick($dr['iidActor']->AsInteger()) , $x , json_decode($dr['Info']->AsString(),JSON_OBJECT_AS_ARRAY) , $dr['Time']->AsDateTime() );
 			}
 		}
 		return $r;
@@ -205,15 +233,15 @@ class Movie {
 
 			if (isset($tmdb['credits']['cast'])) foreach ($tmdb['credits']['cast'] as $tmdb2) if ($iid2 = @$tmdb2['id']) {
 				if (!array_key_exists($iid2,$crdt)) $crdt[$iid2] = [];
-				$crdt[$iid2][ Credit::EncodeJob(@$tmdb2['character']?:'Cast') ] = @$tmdb2['episode_count'] ?: 0;
+				$crdt[$iid2][] = Credit::EncodeJob(@$tmdb2['character']?:'Cast');
 			}
 			if (isset($tmdb['created_by'])) foreach ($tmdb['created_by'] as $tmdb2) if ($iid2 = @$tmdb2['id']) {
 				if (!array_key_exists($iid2,$crdt)) $crdt[$iid2] = [];
-				$crdt[$iid2][ Credit::EncodeJob('Created by') ] = @$tmdb['episode_count'] ?: 0;
+				$crdt[$iid2][] = Credit::EncodeJob('Created by');
 			}
 			if (isset($tmdb['credits']['crew'])) foreach ($tmdb['credits']['crew'] as $tmdb2) if ($iid2 = @$tmdb2['id']) {
 				if (!array_key_exists($iid2,$crdt)) $crdt[$iid2] = [];
-				$crdt[$iid2][ Credit::EncodeJob(@$tmdb2['job']?:'Crew') ] = @$tmdb2['episode_count'] ?: 0;
+				$crdt[$iid2][] = Credit::EncodeJob(@$tmdb2['job']?:'Crew');
 			}
 
 		}
@@ -236,30 +264,43 @@ class Movie {
 		$rrrr = []; $i = 0; foreach ($crdt as $iidActor=>$_) $rrrr[$iidActor] = $i++;
 
 		$seen = [];
+		$to_show = [];
 		$to_hide = [];
 		$to_kill = [];
 		$to_look = [];
 		$to_save = [];
 		$to_make = [];
 
-		$dr = Database::Execute('SELECT `iidActor`,`Info`,`Rank` FROM `mmx_credit` WHERE `iidMovie`=?',$iid);
+		$dr = Database::Execute('SELECT `iidActor`,`Info`,`Rank`,`Date` FROM `mmx_credit` WHERE `iidMovie`=?',$iid);
 		while($dr->Read()) {
 			$iidActor = $dr['iidActor']->AsInteger();
 			$seen[$iidActor] = $iidActor;
+			$old_info = $dr['Info']->AsString();
 			$old_rank = $dr['Rank']->AsIntegerOrNull();
+			$old_date = ($d = $dr['Date']->AsDate()) === null ? '' : $d->Format('Y-m-d');
 
 			if (!array_key_exists($iidActor,$crdt)) {
-				if($old_rank !== null && $old_rank >= 0) {
-					$to_hide[] = $iidActor;
-					//$to_look[] = $iidActor;
-				}
+				// We found an actor that does not belong to the movie
+
+				if ($old_rank === null)   // this is the first time that the movie sees this credit
+					$to_hide[] = $iidActor; // hide this credit from the movie
+
+				elseif ($old_rank >= 0)   // this was a strong credit
+					$to_kill[] = $iidActor; // remove it altogether
+
 			}
 			else {
-				$old_json = $dr['Info']->AsString();
-				if ($old_json !== $crdt[$iidActor] || $old_rank !== $rrrr[$iidActor]) {
+				// We found an actor that still exists in the movie credits
+
+				if ($old_rank === null)     // this was a light credit.
+					$to_save[] = $iidActor;   // make it strong
+
+				elseif ($old_rank < 0)      // this was hidden
 					$to_save[] = $iidActor;
-					//$to_look[] = $iidActor;
-				}
+
+				elseif ($old_rank !== $rrrr[$iidActor] || $old_info !== $crdt[$iidActor] || $old_date !== $dddd)  // there has been a change
+					$to_save[] = $iidActor;
+
 			}
 		}
 		$dr->Close();
@@ -275,7 +316,7 @@ class Movie {
 		if (!empty($to_kill))
 			Database::Execute('DELETE FROM `mmx_credit` WHERE `iidMovie`=? AND `iidActor` IN '.new Sql($to_kill),$iid);
 		foreach ($to_save as $iidActor)
-			Database::Execute('UPDATE `mmx_credit` SET `Info`=?,`Rank`=?,`Time`=? WHERE `iidMovie`=? AND `iidActor`=?',$crdt[$iidActor],$rrrr[$iidActor],$time,$iid,$iidActor);
+			Database::Execute('UPDATE `mmx_credit` SET `Info`=?,`Rank`=?,`Date`=?,`Time`=? WHERE `iidMovie`=? AND `iidActor`=?',$crdt[$iidActor],$rrrr[$iidActor],$d,$time,$iid,$iidActor);
 		foreach ($to_make as $iidActor)
 			Database::Execute('INSERT INTO `mmx_credit`(`iidMovie`,`iidActor`,`Info`,`Rank`,`Date`,`Time`) VALUES (?,?,?,?,?,?)',$iid,$iidActor,$crdt[$iidActor],$rrrr[$iidActor],$d,$time);
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - 16mm@localhost" uuid="a94b58b6-40d4-46b8-ba9b-a6e5405cdb45">
+    <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="16mm"/>
+    <table name="mmx" schema="" catalog="16mm" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="VersionLi" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="mmx_actor" schema="" catalog="16mm" type="TABLE">
+      <column name="iid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="Info" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="Time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+    </table>
+    <table name="mmx_credit" schema="" catalog="16mm" type="TABLE">
+      <column name="iidActor" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="iidMovie" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="Info" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="Rank" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="Date" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="Time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+    </table>
+    <table name="mmx_movie" schema="" catalog="16mm" type="TABLE">
+      <column name="iid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="Info" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="Time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+    </table>
+    <table name="oxy" schema="" catalog="16mm" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="Version" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="oxy_ids" schema="" catalog="16mm" type="TABLE">
+      <column name="TableName" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="LastID" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="TableName"/>
+    </table>
+  </data-source>
+</component>

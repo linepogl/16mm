@@ -2,6 +2,8 @@
   <dictionary name="linepogl">
     <words>
       <w>cooperations</w>
+      <w>crdt</w>
+      <w>iids</w>
       <w>infobar</w>
       <w>langs</w>
       <w>tmdb</w>

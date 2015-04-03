@@ -76,7 +76,9 @@ class Movie extends MMItem {
 		$r['Keywords'] = array_values($this->_Keywords);
 		$r['Runtime'] = mmx::FormatTimeSpan($this->_Runtime);
 		$r['Year'] = $this->_Year;
-		$r['Pictures'] = array_map(function(Picture $x){ return $x->Path; },$this->_Pictures);
+		$r['YearTill'] = $this->YearTill;
+		$r['Seasons'] = $this->Seasons;
+		$r['Episodes'] = $this->Episodes;
 		return $r;
 	}
 
